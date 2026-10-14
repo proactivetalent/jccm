@@ -1,0 +1,25 @@
+/* Only the fixed 1920px Figma canvas scaling remains outside Tailwind. */
+
+@media (min-width: 1024px) {
+  .sectionScale {
+    height: 52.0833333vw;
+  }
+
+  .canvasScale {
+    left: 0;
+    transform: scale(calc(100vw / 1920px));
+    transform-origin: top left;
+  }
+}
+
+@media (min-width: 1536px) {
+  .sectionScale {
+    height: min(1000px, 52.0833333vw);
+  }
+
+  .canvasScale {
+    left: 50%;
+    transform: translateX(-50%) scale(min(1, 100vw / 1920px));
+    transform-origin: top center;
+  }
+}

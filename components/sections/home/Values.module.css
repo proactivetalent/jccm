@@ -1,0 +1,161 @@
+/* Desktop canvas scale sync — Figma artboard is 1920px.
+   Below 1920 the canvas scales with viewport; from 1920 upward it stays at 1:1. */
+
+.valueTab[data-active="true"] .valueIcon {
+  opacity: 1;
+}
+
+.valueTab[data-active="false"] .valueIcon {
+  opacity: 0.42;
+}
+
+.valueDescription {
+  --ty: 12px;
+}
+
+.valuesFrameMargin {
+  --values-frame-margin: 48px;
+  --values-content-margin: 80px;
+  --values-rail-top: var(--values-frame-margin);
+  --values-rail-bottom: var(--values-frame-margin);
+}
+
+.sectionScale {
+  --values-frame-margin: 48px;
+  --values-content-margin: 80px;
+  --values-header-nav-gap: 56px;
+  --values-canvas-height: 782px;
+  --values-rail-top: var(--values-frame-margin);
+  --values-rail-bottom: var(--values-frame-margin);
+}
+
+/* Mobile / tablet: stacked flow */
+.valuesFrame {
+  width: 100%;
+}
+
+.valuesGrid {
+  display: flex;
+  flex-direction: column;
+}
+
+.valuesNav {
+  width: 100%;
+}
+
+.valuesDetail {
+  width: 100%;
+}
+
+/* Desktop: centered 1299px frame with top/bottom rules + equal outer margins */
+@media (min-width: 1024px) {
+  .canvasScale {
+    left: 50%;
+    height: var(--values-canvas-height);
+    transform-origin: top center;
+  }
+
+  .valuesLineTop {
+    top: var(--values-rail-top);
+    z-index: 3;
+  }
+
+  .valuesLineBottom {
+    bottom: var(--values-rail-bottom);
+    z-index: 3;
+  }
+
+  .valuesRails {
+    top: var(--values-rail-top);
+    bottom: var(--values-rail-bottom);
+    left: 50%;
+    width: 1299px;
+    margin-left: -649.5px;
+    z-index: 2;
+  }
+
+  .valuesFrame {
+    position: absolute;
+    top: calc(var(--values-rail-top) + 1px);
+    bottom: calc(var(--values-rail-bottom) + 1px);
+    left: 50%;
+    width: 1299px;
+    margin-left: -649.5px;
+    box-sizing: border-box;
+  }
+
+  .valuesGrid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding-top: var(--values-content-margin);
+    padding-bottom: var(--values-content-margin);
+    row-gap: var(--values-header-nav-gap);
+    grid-template-columns: 772px 527px;
+    grid-template-rows: 102px minmax(0, 1fr);
+  }
+
+  .valuesHeader {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .valuesNav {
+    grid-column: 1;
+    grid-row: 2;
+    min-height: 0;
+  }
+
+  .valuesDetail {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    min-height: 0;
+    display: grid;
+    row-gap: var(--values-header-nav-gap);
+    grid-template-rows: 102px minmax(0, 1fr);
+    align-content: start;
+  }
+
+  .valuesIntro {
+    grid-row: 1;
+    align-self: start;
+  }
+
+  .valuesDescriptionGrid {
+    grid-row: 2;
+    display: grid;
+    min-height: 0;
+    height: 100%;
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+  }
+
+  .valuesDescriptionGrid > div {
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1535px) {
+  .sectionScale {
+    height: calc(var(--values-canvas-height) * 100vw / 1920px);
+  }
+
+  .canvasScale {
+    transform: translateX(-50%) scale(calc(100vw / 1920px));
+  }
+}
+
+@media (min-width: 1536px) {
+  .sectionScale {
+    height: min(
+      var(--values-canvas-height),
+      calc(var(--values-canvas-height) * 100vw / 1920px)
+    );
+  }
+
+  .canvasScale {
+    transform: translateX(-50%) scale(min(1, 100vw / 1920px));
+  }
+}

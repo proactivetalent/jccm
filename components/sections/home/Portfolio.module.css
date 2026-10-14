@@ -1,0 +1,60 @@
+.projectImage {
+  aspect-ratio: 445 / 545;
+}
+
+.shortCard .projectImage {
+  aspect-ratio: 445 / 436;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tallCard {
+    padding-bottom: 0;
+  }
+
+  .shortCard {
+    padding-top: 72px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .projectsGrid {
+    grid-template-columns: repeat(4, 445px);
+  }
+
+  .projectImage,
+  .shortCard .projectImage {
+    aspect-ratio: auto;
+  }
+
+  .projectImage {
+    height: 545px;
+  }
+
+  .shortCard .projectImage {
+    height: 436px;
+  }
+}
+
+/* The desktop design is authored on a 1920px Figma canvas. */
+@media (min-width: 1024px) and (max-width: 1535px) {
+  .sectionScale {
+    height: 51.7708333vw;
+  }
+
+  .canvasScale {
+    left: 0;
+    transform: scale(calc(100vw / 1920px));
+    transform-origin: top left;
+    translate: none;
+  }
+}
+
+@media (min-width: 1536px) {
+  .sectionScale {
+    height: min(994px, 51.7708333vw);
+  }
+
+  .canvasScale {
+    transform: scale(min(1, 100vw / 1920px));
+  }
+}

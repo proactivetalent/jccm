@@ -1,0 +1,27 @@
+.canvas {
+  transform-origin: top left;
+}
+
+@media (min-width: 1024px) and (max-width: 1535px) {
+  .section {
+    height: 41.6666667vw;
+  }
+
+  .canvas {
+    left: 0;
+    translate: none;
+    scale: calc(100vw / 1920px);
+  }
+}
+
+@media (min-width: 1536px) {
+  .section {
+    height: 640px;
+  }
+
+  .canvas {
+    left: calc(50% - 768px);
+    translate: none;
+    scale: 0.8;
+  }
+}

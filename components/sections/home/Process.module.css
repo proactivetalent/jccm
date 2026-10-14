@@ -1,0 +1,205 @@
+/* Desktop canvas scale sync — Figma artboard is 1920px; cards are 384×458 at full scale.
+   Below 1920 the canvas scales with viewport; from 1920 upward it stays at 1:1. */
+
+.processCard {
+  background: var(--jccm-color-surface);
+}
+
+@media (min-width: 1024px) {
+  .processCard {
+    left: var(--card-left);
+  }
+}
+
+.cardHoverImage {
+  opacity: 0;
+  transform: scale(1.04);
+  transition:
+    opacity 480ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 640ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cardHoverOverlay {
+  background: linear-gradient(
+    180deg,
+    rgb(16 16 16 / 8%) 0%,
+    rgb(16 16 16 / 36%) 52%,
+    rgb(16 16 16 / 62%) 100%
+  );
+  opacity: 0;
+  transition: opacity 480ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cardIcon {
+  transition: filter 320ms ease;
+}
+
+.cardCopy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.cardNumber,
+.cardTitle,
+.cardDescriptionDefault,
+.cardDescriptionHover {
+  transition: color 320ms ease;
+}
+
+.cardDescriptionWrap {
+  display: grid;
+  width: 100%;
+  margin-top: 0.875rem;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .cardDescriptionWrap {
+    margin-top: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cardDescriptionWrap {
+    margin-top: 1.25rem;
+  }
+}
+
+.cardDescriptionDefault,
+.cardDescriptionHover {
+  grid-area: 1 / 1;
+  transition:
+    opacity 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    max-height 480ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cardDescriptionHover {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+/* Touch / tablet active + focus state */
+@media (max-width: 1023px) {
+  .processCard[data-active="true"] .cardHoverImage,
+  .processCard:focus-within .cardHoverImage {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .processCard[data-active="true"] .cardHoverOverlay,
+  .processCard:focus-within .cardHoverOverlay {
+    opacity: 1;
+  }
+
+  .processCard[data-active="true"] .cardIcon,
+  .processCard:focus-within .cardIcon {
+    filter: brightness(0) invert(1);
+  }
+
+  .processCard[data-active="true"] .cardNumber,
+  .processCard[data-active="true"] .cardTitle,
+  .processCard:focus-within .cardNumber,
+  .processCard:focus-within .cardTitle {
+    color: var(--jccm-color-surface);
+  }
+
+  .processCard[data-active="true"] .cardDescriptionDefault,
+  .processCard[data-active="true"] .cardDescriptionHover,
+  .processCard:focus-within .cardDescriptionDefault,
+  .processCard:focus-within .cardDescriptionHover {
+    color: rgb(236 244 243 / 92%);
+  }
+
+  .processCard[data-active="true"] .cardDescriptionDefault,
+  .processCard:focus-within .cardDescriptionDefault {
+    opacity: 0;
+  }
+
+  .processCard[data-active="true"] .cardDescriptionHover,
+  .processCard:focus-within .cardDescriptionHover {
+    max-height: 9.5rem;
+    opacity: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+/* Desktop hover / focus — unchanged interaction model */
+@media (min-width: 1024px) {
+  .processCard:hover .cardDescriptionDefault,
+  .processCard:focus-within .cardDescriptionDefault {
+    opacity: 0;
+  }
+
+  .processCard:hover .cardDescriptionHover,
+  .processCard:focus-within .cardDescriptionHover {
+    max-height: 220px;
+    opacity: 1;
+  }
+
+  .processCard:hover .cardNumber,
+  .processCard:hover .cardTitle,
+  .processCard:focus-within .cardNumber,
+  .processCard:focus-within .cardTitle {
+    color: var(--jccm-color-surface);
+  }
+
+  .processCard:hover .cardDescriptionDefault,
+  .processCard:hover .cardDescriptionHover,
+  .processCard:focus-within .cardDescriptionDefault,
+  .processCard:focus-within .cardDescriptionHover {
+    color: rgb(236 244 243 / 92%);
+  }
+
+  .processCard:hover .cardHoverImage,
+  .processCard:focus-within .cardHoverImage {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .processCard:hover .cardIcon,
+  .processCard:focus-within .cardIcon {
+    filter: brightness(0) invert(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardHoverImage,
+  .cardHoverOverlay,
+  .cardIcon,
+  .cardNumber,
+  .cardTitle,
+  .cardDescriptionDefault,
+  .cardDescriptionHover {
+    transition: none;
+  }
+
+  .cardHoverImage {
+    transform: none;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1535px) {
+  .sectionScale {
+    height: 42.3958333vw;
+  }
+
+  .canvasScale {
+    left: 0;
+    transform: scale(calc(100vw / 1920px));
+    transform-origin: top left;
+    translate: none;
+  }
+}
+
+@media (min-width: 1536px) {
+  .sectionScale {
+    height: min(814px, 42.3958333vw);
+  }
+
+  .canvasScale {
+    transform: scale(min(1, 100vw / 1920px));
+  }
+}

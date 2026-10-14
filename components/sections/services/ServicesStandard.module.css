@@ -1,0 +1,25 @@
+/* Uses the same 1920px desktop-canvas scaling model as the homepage Services section. */
+
+@media (min-width: 1024px) and (max-width: 1535px) {
+  .sectionScale {
+    height: 54.2708333vw;
+  }
+
+  .canvasScale {
+    left: 0;
+    transform: scale(calc(100vw / 1920px));
+    transform-origin: top left;
+    translate: none;
+  }
+}
+
+@media (min-width: 1536px) {
+  .sectionScale {
+    height: min(1042px, 54.2708333vw);
+  }
+
+  .canvasScale {
+    transform: scale(min(1, 100vw / 1920px));
+  }
+}
+

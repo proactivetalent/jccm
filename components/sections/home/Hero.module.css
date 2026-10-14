@@ -1,0 +1,41 @@
+/* Badge ring spin + mid-width desktop canvas scale sync */
+
+.badgeRingSpin {
+  transform-origin: 69.5px 69.5px;
+  transform-box: view-box;
+  animation: hero-badge-spin 24s linear infinite;
+}
+
+@keyframes hero-badge-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badgeRingSpin {
+    animation: none;
+  }
+}
+
+/* Mid-width: override lg canvas translate/scale (1024–1535) */
+@media (min-width: 1024px) and (max-width: 1535px) {
+  .sectionScale {
+    height: 56.5104167vw;
+  }
+
+  .canvasScale {
+    left: 0;
+    translate: none;
+    scale: calc(100vw / 1920px);
+    transform-origin: top left;
+  }
+
+  .bottomDividerScale {
+    height: 0.1088542vw;
+  }
+}

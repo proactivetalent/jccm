@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+:root {
+  --jccm-color-brand: #2b7f73;
+  --jccm-color-brand-deep: #205351;
+  --jccm-color-surface: #ecf4f3;
+  --jccm-color-text: #000000;
+  --jccm-color-text-strong: #101010;
+  --jccm-color-muted: #868686;
+  --jccm-color-subtle: #616161;
+  --jccm-color-divider: #b5b9bb;
+  --jccm-color-footer-accent: #79ebdb;
+  --jccm-color-white: #ffffff;
+  --jccm-radius-card: 10px;
+  --font-jccm-headline: "Stack Sans Headline", ui-sans-serif, system-ui, sans-serif;
+  --font-jccm-body: "Stack Sans Text", ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-brand: var(--jccm-color-brand);
+  --color-brand-deep: var(--jccm-color-brand-deep);
+  --color-surface: var(--jccm-color-surface);
+  --color-ink: var(--jccm-color-text);
+  --color-ink-strong: var(--jccm-color-text-strong);
+  --color-muted: var(--jccm-color-muted);
+  --color-subtle: var(--jccm-color-subtle);
+  --color-divider: var(--jccm-color-divider);
+  --color-footer-accent: var(--jccm-color-footer-accent);
+  --color-white: var(--jccm-color-white);
+  --font-headline: var(--font-jccm-headline);
+  --font-body: var(--font-jccm-body);
+  --font-metric: var(--font-jccm-metric);
+  --font-figtree: var(--font-jccm-figtree);
+  --radius-card: var(--jccm-radius-card);
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--jccm-color-surface);
+  color: var(--jccm-color-text);
+  font-family: var(--font-jccm-body), sans-serif;
+}
+
+@keyframes staggerIn {
+  from {
+    opacity: 0;
+    transform: translateY(var(--ty, 16px));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

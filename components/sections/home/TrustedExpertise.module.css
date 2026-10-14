@@ -1,0 +1,27 @@
+/* Desktop mid-width scale sync — Tailwind can't cleanly express
+   conflicting lg:scale-80 vs lg+max-1535 calc() without order bugs. */
+
+@media (min-width: 1024px) and (max-width: 1535px) {
+  .sectionScale {
+    height: 27.2916667vw;
+  }
+
+  .artworkViewportScale {
+    top: -3.90625vw;
+    width: 100vw;
+    height: 29.6354167vw;
+  }
+
+  .backgroundScale {
+    top: 1.5625vw;
+    height: 24.1666667vw;
+  }
+
+  .canvasScale {
+    transform: scale(calc(100vw / 1920px));
+  }
+
+  .bottomDividerScale {
+    height: 0.1088542vw;
+  }
+}

@@ -1,0 +1,26 @@
+/* Figma's desktop section is a fixed 1920px canvas. Visual styling remains
+   in Tailwind; this file only handles proportional canvas scaling. */
+
+@media (min-width: 1024px) {
+  .sectionScale {
+    height: 44.4791667vw;
+  }
+
+  .canvasScale {
+    left: 0;
+    transform: scale(calc(100vw / 1920px));
+    transform-origin: top left;
+  }
+}
+
+@media (min-width: 1536px) {
+  .sectionScale {
+    height: min(854px, 44.4791667vw);
+  }
+
+  .canvasScale {
+    left: 50%;
+    transform: translateX(-50%) scale(min(1, 100vw / 1920px));
+    transform-origin: top center;
+  }
+}

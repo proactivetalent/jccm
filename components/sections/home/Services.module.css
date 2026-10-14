@@ -1,0 +1,25 @@
+/* Desktop canvas scale sync — Figma artboard is 1920px; main panel is 1675px at full scale.
+   Below 1920 the canvas scales with viewport; from 1920 upward it stays at 1:1. */
+
+@media (min-width: 1024px) and (max-width: 1535px) {
+  .sectionScale {
+    height: 56.25vw;
+  }
+
+  .canvasScale {
+    left: 0;
+    transform: scale(calc(100vw / 1920px));
+    transform-origin: top left;
+    translate: none;
+  }
+}
+
+@media (min-width: 1536px) {
+  .sectionScale {
+    height: min(1075px, 55.9895833vw);
+  }
+
+  .canvasScale {
+    transform: scale(min(1, 100vw / 1920px));
+  }
+}

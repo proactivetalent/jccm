@@ -1,0 +1,277 @@
+/* Dropdown item geometry — CSS custom properties from navigation data.
+   Unreadable as utilities; hover label top/size also driven by vars. */
+
+.fullMenuSlide {
+  transform: translateY(-100%);
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.fullMenuSlide[data-menu-phase="open"] {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fullMenuSlide {
+    transition: none;
+    transform: translateY(0);
+  }
+}
+
+.fullMenuSubnavSlide {
+  animation: fullMenuSubnavSlideIn 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fullMenuSubnavSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-48px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fullMenuSubnavSlide {
+    animation: none;
+  }
+}
+
+.dropdownItem {
+  position: absolute;
+  z-index: 3;
+  top: calc(18px + (var(--dropdown-row) * 107px));
+  left: calc(2px + (var(--dropdown-column) * 457px));
+  display: block;
+  width: 455px;
+  height: 105px;
+  color: var(--jccm-color-text);
+  text-decoration: none;
+}
+
+.dropdownItem[data-row="2"] {
+  left: 0;
+}
+
+.dropdownIcon {
+  position: absolute;
+  top: var(--icon-top);
+  left: var(--icon-left);
+  max-width: none;
+}
+
+.dropdownLabel {
+  position: absolute;
+  top: var(--label-top);
+  left: var(--label-left);
+  width: 289px;
+  height: 52px;
+  font-family: var(--font-jccm-headline), sans-serif;
+  font-size: 18.32px;
+  font-weight: 400;
+  line-height: 51.07913208px;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.dropdownItem:hover .dropdownLabel,
+.dropdownItem:focus-visible .dropdownLabel {
+  top: var(--label-hover-top);
+  color: var(--jccm-color-brand);
+  font-size: 20px;
+}
+
+.dropdownItem:focus-visible {
+  outline: 2px solid var(--jccm-color-brand);
+  outline-offset: 4px;
+}
+
+/* Full-menu desktop layout. Positioning lives here (not Tailwind lg:) so
+   mid-width fluid % rules don't fight left-1/2 + -translate-x-1/2 + w-[1920px]. */
+
+@media (min-width: 1024px) {
+  .fullMenuViewport {
+    height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .fullMenu {
+    left: 0;
+    width: 100%;
+    height: max(100dvh, 1001px);
+    transform: none;
+    translate: none;
+  }
+
+  .cityImagePanel {
+    width: 32.2395833333%;
+    height: 100%;
+  }
+
+  .craneImagePanel {
+    left: 57.96875%;
+    width: 42.03125%;
+    height: 100%;
+  }
+
+  .dividerLeft {
+    left: 32.2395833333%;
+    height: 100%;
+  }
+
+  .dividerRight {
+    left: 58.1770833333%;
+    height: 100%;
+  }
+
+  .dividerHorizontal {
+    width: 100%;
+  }
+
+  .fullMenuPrimaryNav,
+  .fullMenuUtilityNav {
+    left: 35.4825083415%;
+  }
+
+  .fullMenuPrimaryLink,
+  .fullMenuPrimaryButton {
+    font-size: clamp(38px, 2.489892443vw, 47.805934906px);
+  }
+
+  .fullMenuPrimaryContact {
+    font-size: clamp(38px, 2.505706747vw, 48.10956955px);
+  }
+
+  .fullMenuSubnav,
+  .servicesFullMenuSubnav {
+    right: 2.5%;
+    left: 62.1354166667%;
+    width: auto;
+  }
+
+  .projectsFullMenuSubnav {
+    right: 2.5%;
+    left: 62.1875%;
+    width: auto;
+  }
+
+  .fullMenuSubnav a {
+    max-width: 100%;
+    font-size: clamp(28px, 2.0833333333vw, 40px);
+    white-space: normal;
+  }
+
+  .fullMenuTagline {
+    left: 5.3309726715%;
+  }
+
+  .fullMenuContact {
+    right: 2.5%;
+    left: 77.5520833333%;
+    font-size: clamp(16px, 0.9497336546vw, 18.234886169px);
+  }
+
+  .closeButton {
+    right: calc((100% - min(87.2395833333%, 1675px)) / 2 - 12px);
+  }
+}
+
+/* True 1920 canvas centered on ultra-wide viewports */
+@media (min-width: 1920px) {
+  .fullMenuViewport {
+    height: 1001px;
+    overflow: hidden;
+  }
+
+  .fullMenu {
+    left: 50%;
+    width: 1920px;
+    height: 1001px;
+    translate: -50% 0;
+  }
+
+  .cityImagePanel {
+    width: 619px;
+    height: 998px;
+  }
+
+  .craneImagePanel {
+    left: 1113px;
+    width: 807px;
+    height: 998px;
+  }
+
+  .dividerLeft {
+    left: 619px;
+    height: 1001px;
+  }
+
+  .dividerRight {
+    left: 1117px;
+    height: 1001px;
+  }
+
+  .dividerHorizontal {
+    top: 748px;
+    bottom: auto;
+    left: 1px;
+    width: 1919px;
+  }
+
+  .fullMenuPrimaryNav {
+    top: 261.940577343px;
+    left: 681.264160156px;
+    width: 315px;
+  }
+
+  .fullMenuUtilityNav {
+    top: 788.021632031px;
+    bottom: auto;
+    left: 681.264160156px;
+    width: 298px;
+  }
+
+  .fullMenuPrimaryLink,
+  .fullMenuPrimaryButton {
+    font-size: 47.805934906px;
+  }
+
+  .fullMenuPrimaryContact {
+    font-size: 48.10956955px;
+  }
+
+  .fullMenuSubnav,
+  .servicesFullMenuSubnav {
+    top: 261px;
+    right: auto;
+    left: 1194px;
+    width: auto;
+  }
+
+  .projectsFullMenuSubnav {
+    top: 263px;
+    left: 1194px;
+  }
+
+  .fullMenuSubnav a {
+    font-size: 40px;
+    white-space: nowrap;
+  }
+
+  .fullMenuTagline {
+    left: 102.354675293px;
+  }
+
+  .fullMenuContact {
+    top: 814px;
+    right: auto;
+    bottom: auto;
+    left: 1489px;
+    font-size: 18.234886169px;
+  }
+}
