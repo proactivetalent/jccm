@@ -8,7 +8,7 @@ import styles from "./ReadyToBuild.module.css";
 
 const CTA_BACKGROUND = "/images/home/cta-background-v2.png";
 const CTA_ARROW = "/icons/home/explore-arrow-brand.svg";
-const CTA_MOTION_DURATION = 1350;
+const COPY_REVEAL_DELAY = 650;
 
 type ConsultationLinkProps = Readonly<{
   onFocusChange: (focused: boolean) => void;
@@ -95,7 +95,7 @@ export function ReadyToBuild() {
     readyTimerRef.current = setTimeout(() => {
       setIsCopyReady(true);
       readyTimerRef.current = null;
-    }, CTA_MOTION_DURATION);
+    }, COPY_REVEAL_DELAY);
   };
 
   const handleHoverChange = (hovered: boolean) => {
