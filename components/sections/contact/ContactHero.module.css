@@ -1,0 +1,92 @@
+.section {
+  position: relative;
+  background-color: var(--jccm-color-surface);
+  border-bottom: 1px solid var(--jccm-color-divider);
+}
+
+.content {
+  box-sizing: border-box;
+  max-width: 760px;
+  margin-inline: auto;
+  padding: 64px 24px 72px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-jccm-headline);
+  font-size: clamp(48px, 11vw, 80px);
+  font-weight: 300;
+  line-height: 1;
+}
+
+.description {
+  max-width: 542px;
+  margin: 32px 0 0;
+  font-family: var(--font-jccm-body);
+  font-size: clamp(22px, 3.2vw, 28px);
+  font-weight: 300;
+  line-height: 1.25;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .content {
+    padding: 80px 40px 88px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    /* Follow the site's 1920px design scale, capped at 80% on desktop. */
+    --hero-unit: min(0.0520833333vw, 0.8px);
+
+    border-bottom: 0;
+  }
+
+  .section::before,
+  .section::after {
+    position: absolute;
+    pointer-events: none;
+    content: "";
+    background-repeat: no-repeat;
+  }
+
+  .section::before {
+    inset: 0 calc(29 * var(--hero-unit));
+    background-image: url("/images/contact/hero-side-dividers.svg");
+    background-position: center bottom;
+    background-size: 100% calc(602 * var(--hero-unit));
+  }
+
+  .section::after {
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: calc(2.09047 * var(--hero-unit));
+    background-image: url("/images/contact/hero-bottom-divider.svg");
+    background-position: center;
+    background-size: cover;
+  }
+
+  .content {
+    display: grid;
+    grid-template-columns: minmax(0, 1008fr) minmax(0, 542fr);
+    align-items: start;
+    max-width: 1536px;
+    min-height: calc(488 * var(--hero-unit));
+    padding: calc(172 * var(--hero-unit)) calc(171 * var(--hero-unit))
+      calc(100 * var(--hero-unit)) calc(199 * var(--hero-unit));
+  }
+
+  .title {
+    margin-top: calc(33 * var(--hero-unit));
+    font-size: calc(96 * var(--hero-unit));
+    line-height: calc(89.297 * var(--hero-unit));
+  }
+
+  .description {
+    max-width: none;
+    margin: 0;
+    font-size: calc(32 * var(--hero-unit));
+    line-height: calc(40 * var(--hero-unit));
+  }
+}

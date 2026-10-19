@@ -22,10 +22,10 @@
   }
 }
 
-/* Mid-width: override lg canvas translate/scale (1024–1535) */
+/* Keep the visible hero at 950/1920 of the viewport width; the canvas includes clipped space below it. */
 @media (min-width: 1024px) and (max-width: 1535px) {
   .sectionScale {
-    height: 56.5104167vw;
+    height: 49.4791667vw;
   }
 
   .canvasScale {
@@ -37,5 +37,15 @@
 
   .bottomDividerScale {
     height: 0.1088542vw;
+  }
+}
+
+@media (min-width: 1536px) {
+  .sectionScale {
+    height: min(950px, 49.4791667vw);
+  }
+
+  .canvasScale {
+    scale: min(1, 100vw / 1920px);
   }
 }
