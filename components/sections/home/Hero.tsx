@@ -104,6 +104,7 @@ export function Hero() {
         className={`relative box-border flex w-full max-w-full flex-col items-stretch px-5 pt-8 pb-12 md:mx-auto md:max-w-[920px] md:px-6 md:pt-10 md:pb-14 lg:absolute lg:top-0 lg:left-1/2 lg:mx-0 lg:block lg:h-[1085px] lg:w-[1920px] lg:max-w-none lg:origin-top lg:translate-x-[-50%] lg:p-0 ${styles.canvasScale}`}
       >
         <h1
+          data-transition-hero-title
           className="order-1 mb-7 w-full text-center font-headline text-[clamp(36px,9vw,56px)] font-medium leading-[1.05] tracking-[0.01em] text-ink md:mb-8 md:text-[clamp(44px,6.5vw,56px)] lg:absolute lg:top-[252px] lg:left-[123px] lg:z-[1] lg:order-none lg:m-0 lg:h-[216px] lg:w-[659px] lg:text-left lg:text-[72px] lg:leading-[72px]"
           id="home-hero-title"
         >
@@ -115,7 +116,7 @@ export function Hero() {
         </h1>
 
         <div className="relative order-2 mb-6 box-border w-full pl-9 md:mb-7 md:pl-11 lg:absolute lg:top-[136px] lg:left-[1218px] lg:z-[1] lg:order-none lg:m-0 lg:h-[346px] lg:w-[580px] lg:pl-0">
-          <div className="relative aspect-[580/346] w-full overflow-hidden rounded-card lg:absolute lg:inset-0 lg:aspect-auto">
+          <div className="relative aspect-[580/346] w-full overflow-hidden rounded-card lg:absolute lg:inset-0 lg:aspect-auto" data-transition-hero-image>
             <Image
               alt="New York City brownstone residences"
               className="absolute inset-0 h-full w-full max-w-none object-cover object-center lg:inset-auto lg:top-0 lg:left-[-85px] lg:h-[415px] lg:w-[665px]"
@@ -129,7 +130,7 @@ export function Hero() {
           <HeroBadge />
         </div>
 
-        <p className="order-3 mb-7 w-full text-left font-body text-[clamp(16px,4.2vw,20px)] font-light leading-[1.35] tracking-normal text-ink md:mb-8 md:text-xl md:leading-7 lg:absolute lg:top-[522px] lg:left-[1218px] lg:z-[1] lg:order-none lg:m-0 lg:w-[580px] lg:text-2xl lg:leading-[30px]">
+        <p className="order-3 mb-7 w-full text-left font-body text-[clamp(16px,4.2vw,20px)] font-light leading-[1.35] tracking-normal text-ink md:mb-8 md:text-xl md:leading-7 lg:absolute lg:top-[522px] lg:left-[1218px] lg:z-[1] lg:order-none lg:m-0 lg:w-[580px] lg:text-2xl lg:leading-[30px]" data-transition-hero-copy>
           JC Construction Management is NYC general contractor specializing in
           complex ground-up development, precision renovations, and high-end
           residential and commercial interior renovations. We deliver
@@ -137,7 +138,7 @@ export function Hero() {
           technology, and an unwavering commitment to quality.
         </p>
 
-        <div className="order-4 mb-10 flex w-full flex-col items-stretch gap-3.5 md:mb-12 md:gap-4 lg:absolute lg:top-[500px] lg:left-[123px] lg:z-[1] lg:order-none lg:m-0 lg:w-auto lg:items-start lg:gap-[17px]">
+        <div className="order-4 mb-10 flex w-full flex-col items-stretch gap-3.5 md:mb-12 md:gap-4 lg:absolute lg:top-[500px] lg:left-[123px] lg:z-[1] lg:order-none lg:m-0 lg:w-auto lg:items-start lg:gap-[17px]" data-transition-hero-ctas>
           <HeroCta
             href="/portfolio"
             label="Explore Our Projects"
@@ -150,7 +151,7 @@ export function Hero() {
           />
         </div>
 
-        <dl className="pointer-events-none order-5 m-0 box-border flex w-full flex-col items-stretch divide-y divide-divider rounded-2xl bg-surface px-5 py-0 lg:absolute lg:inset-0 lg:z-[1] lg:order-none lg:block lg:w-auto lg:divide-y-0 lg:rounded-none lg:bg-transparent lg:p-0">
+        <dl className="pointer-events-none order-5 m-0 box-border flex w-full flex-col items-stretch divide-y divide-divider rounded-2xl bg-surface px-5 py-0 lg:absolute lg:inset-0 lg:z-[1] lg:order-none lg:block lg:w-auto lg:divide-y-0 lg:rounded-none lg:bg-transparent lg:p-0" data-transition-hero-metrics>
           <div className="static box-border flex h-auto w-full max-w-none flex-col items-center px-0 py-[22px] text-center text-ink lg:absolute lg:bottom-[160px] lg:left-[123px] lg:block lg:h-[108px] lg:w-[218px] lg:p-0">
             <dt className="static m-0 h-auto w-auto font-metric text-[clamp(2.4rem,9vw,2.9rem)] font-medium leading-none lg:absolute lg:top-0.5 lg:h-[65px] lg:w-full lg:text-[64px] lg:font-semibold lg:leading-[101.751%]">
               15<span className="text-brand lg:text-inherit">+</span>

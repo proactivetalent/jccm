@@ -1,0 +1,127 @@
+.scene {
+  position: relative;
+}
+
+.stage {
+  position: relative;
+}
+
+.heroLayer,
+.expertiseLayer {
+  position: relative;
+}
+
+@media (max-width: 1023px) {
+  .scene[data-mobile-motion="true"] .heroLayer :global([data-transition-hero-title]),
+  .scene[data-mobile-motion="true"] .heroLayer :global([data-transition-hero-copy]),
+  .scene[data-mobile-motion="true"] .heroLayer :global([data-transition-hero-ctas]) {
+    transform: translate3d(0, var(--mobile-hero-shift, 0px), 0);
+  }
+
+  .scene[data-mobile-motion="true"] .heroLayer :global([data-transition-hero-image]) > :global(img) {
+    transform: scale(var(--mobile-image-scale, 1));
+    transform-origin: center;
+  }
+
+  .scene[data-mobile-motion="true"] .expertiseLayer :global([data-transition-heading]) {
+    opacity: var(--heading-opacity, 0);
+    transform: translate3d(0, var(--heading-y, 35px), 0);
+  }
+
+  .scene[data-mobile-motion="true"] .expertiseLayer :global([data-transition-kicker]) {
+    opacity: var(--kicker-opacity, 0);
+    transform: translate3d(0, var(--kicker-y, 25px), 0);
+  }
+
+  .scene[data-mobile-motion="true"] .expertiseLayer :global([data-transition-body]) {
+    opacity: var(--body-opacity, 0);
+    transform: translate3d(0, var(--body-y, 28px), 0);
+  }
+
+  .scene[data-mobile-motion="true"] .expertiseLayer :global([data-transition-building]) {
+    transform: translate3d(0, var(--building-y, 75px), 0);
+  }
+}
+
+@media (min-width: 1024px) and (min-height: 760px) {
+  .scene[data-motion-ready="true"] {
+    height: calc(200svh - 88px);
+  }
+
+  .scene[data-motion-ready="true"] .stage {
+    position: sticky;
+    top: 88px;
+    height: calc(100svh - 88px);
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--jccm-color-surface);
+  }
+
+  .scene[data-motion-ready="true"] .heroLayer,
+  .scene[data-motion-ready="true"] .expertiseLayer {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+
+  .scene[data-motion-ready="true"] .heroLayer {
+    z-index: 1;
+    opacity: var(--hero-opacity, 1);
+  }
+
+  .scene[data-motion-ready="true"] .heroLayer > :global(section) {
+    height: 100%;
+  }
+
+  .scene[data-motion-ready="true"] .heroLayer :global([data-transition-hero-title]),
+  .scene[data-motion-ready="true"] .heroLayer :global([data-transition-hero-ctas]) {
+    transform: translate3d(0, var(--hero-shift, 0px), 0);
+  }
+
+  .scene[data-motion-ready="true"] .heroLayer :global([data-transition-hero-copy]) {
+    transform: translate3d(0, var(--hero-copy-shift, 0px), 0);
+  }
+
+  .scene[data-motion-ready="true"] .heroLayer :global([data-transition-hero-metrics]) {
+    transform: translate3d(0, var(--hero-metrics-shift, 0px), 0);
+  }
+
+  .scene[data-motion-ready="true"] .heroLayer :global([data-transition-hero-image]) > :global(img) {
+    transform: scale(var(--hero-image-scale, 1));
+    transform-origin: center center;
+  }
+
+  .scene[data-motion-ready="true"] .expertiseLayer {
+    z-index: 2;
+    overflow: hidden;
+    border-radius: var(--panel-radius, 32px) var(--panel-radius, 32px) 0 0;
+    box-shadow: 0 -22px 60px rgb(6 46 43 / 22%);
+    transform: translate3d(0, var(--panel-y, 101%), 0);
+    will-change: transform;
+  }
+
+  .scene[data-motion-ready="true"] .expertiseLayer > :global(section) {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .scene[data-motion-ready="true"] .expertiseLayer :global([data-transition-heading]) {
+    opacity: var(--heading-opacity, 0);
+    transform: translate3d(0, var(--heading-y, 62px), 0);
+  }
+
+  .scene[data-motion-ready="true"] .expertiseLayer :global([data-transition-kicker]) {
+    opacity: var(--kicker-opacity, 0);
+    transform: translate3d(0, var(--kicker-y, 38px), 0);
+  }
+
+  .scene[data-motion-ready="true"] .expertiseLayer :global([data-transition-body]) {
+    opacity: var(--body-opacity, 0);
+    transform: translate3d(0, var(--body-y, 42px), 0);
+  }
+
+  .scene[data-motion-ready="true"] .expertiseLayer :global([data-transition-building]) {
+    transform: translate3d(0, var(--building-y, 100px), 0);
+  }
+
+}

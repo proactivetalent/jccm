@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  type CSSProperties,
   type KeyboardEvent as ReactKeyboardEvent,
   type RefObject,
   useCallback,
@@ -14,17 +13,16 @@ import {
 
 import styles from "./Header.module.css";
 import {
-  type DropdownNavigationItem,
+  type FullMenuNavigationItem,
   navigationRoutes,
-  portfolioDropdownItems,
   portfolioFullMenuItems,
-  servicesDropdownItems,
   servicesFullMenuItems,
 } from "./navigation";
 
 type DropdownName = "services" | "portfolio";
 type FullMenuState = "main" | "services" | "projects";
 type FullMenuPhase = "entering" | "open" | "closing";
+type MenuButtonPosition = Readonly<{ top: number; left: number; width: number; height: number }>;
 
 const resetButtonClass =
   "m-0 cursor-pointer border-0 bg-transparent p-0 font-inherit text-inherit";
@@ -47,88 +45,48 @@ const headerSocialLinks = [
 
 type DropdownMenuProps = Readonly<{
   id: string;
-  items: readonly DropdownNavigationItem[];
+  items: readonly FullMenuNavigationItem[];
+  allHref: string;
+  allLabel: string;
   variant: DropdownName;
   onNavigate: () => void;
 }>;
 
-function DropdownMenu({ id, items, variant, onNavigate }: DropdownMenuProps) {
-  const positionClass =
-    variant === "services"
-      ? "top-[53px] left-[-479px]"
-      : "top-[54px] left-[-624px]";
-
+function DropdownMenu({ id, items, allHref, allLabel, variant, onNavigate }: DropdownMenuProps) {
   return (
     <div
       aria-label={`${variant === "services" ? "Services" : "Portfolio"} navigation`}
-      className={`absolute z-[60] h-[351px] w-[927px] bg-surface shadow-[0_3.231654644px_37.244819641px_rgb(0_0_0_/_10%)] ${positionClass}`}
+      className={styles.navDropdown}
       id={id}
-      role="menu"
     >
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute top-[17px] left-px z-[2] block h-[1.688539505px] w-[926px] bg-[rgb(181_185_187_/_50%)]"
-      />
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute top-[124px] left-px z-[2] block h-[1.688539505px] w-[926px] bg-[rgb(181_185_187_/_50%)]"
-      />
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute top-[231px] left-px z-[2] block h-[1.688539505px] w-[926px] bg-[rgb(181_185_187_/_50%)]"
-      />
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute top-[338px] left-px z-[2] block h-[1.688539505px] w-[926px] bg-[rgb(181_185_187_/_50%)]"
-      />
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute top-[17px] left-[463px] z-[2] block h-[334px] w-[1.688539505px] bg-[rgb(181_185_187_/_50%)]"
-      />
-
-      {items.map((item) => {
-        const itemStyle = {
-          "--dropdown-column": item.column,
-          "--dropdown-row": item.row,
-          "--icon-left": `${item.iconLeft}px`,
-          "--icon-top": `${item.iconTop}px`,
-          "--label-left": `${item.labelLeft ?? 100}px`,
-          "--label-top": `${item.labelTop ?? 27}px`,
-          "--label-hover-top": `${item.hoverLabelTop ?? 25}px`,
-        } as CSSProperties;
-
-        return (
-          <Link
-            className={styles.dropdownItem}
-            data-row={item.row}
-            href={item.href}
-            key={`${variant}-${item.label}`}
-            onClick={onNavigate}
-            role="menuitem"
-            style={itemStyle}
-          >
-            <Image
-              alt=""
-              aria-hidden="true"
-              className={styles.dropdownIcon}
-              height={item.iconHeight}
-              src={item.icon}
-              unoptimized
-              width={item.iconWidth}
-            />
-            <span className={styles.dropdownLabel}>{item.label}</span>
-          </Link>
-        );
-      })}
+      <span className={styles.dropdownEyebrow}>
+        {variant === "services" ? "WHAT WE DO" : "SELECTED WORK"}
+      </span>
+      <Link className={styles.navDropdownAll} href={allHref} onClick={onNavigate}>
+        {allLabel}<span aria-hidden="true">↗</span>
+      </Link>
+      {items.map((item, index) => (
+        <Link
+          className={styles.navDropdownItem}
+          href={item.href}
+          key={`${variant}-${item.label}`}
+          onClick={onNavigate}
+        >
+          <span className={styles.dropdownIndex}>{String(index + 1).padStart(2, "0")}</span>
+          <span>{item.label}</span>
+          <span className={styles.dropdownArrow} aria-hidden="true">↗</span>
+        </Link>
+      ))}
     </div>
   );
 }
 
 type HeaderDropdownTriggerProps = Readonly<{
-  label: "Services" | "Portfolio";
+  label: "Services" | "Projects";
   menu: DropdownName;
   isOpen: boolean;
-  onToggle: (menu: DropdownName) => void;
+  onOpen: (menu: DropdownName) => void;
+  onClose: () => void;
   onNavigate: () => void;
 }>;
 
@@ -136,62 +94,32 @@ function HeaderDropdownTrigger({
   label,
   menu,
   isOpen,
-  onToggle,
+  onOpen,
+  onClose,
   onNavigate,
 }: HeaderDropdownTriggerProps) {
   const menuId = `desktop-${menu}-menu`;
-  const items = menu === "services" ? servicesDropdownItems : portfolioDropdownItems;
-  const widthClass = menu === "services" ? "w-[102px]" : "ml-[42px] w-[99px]";
+  const items = menu === "services" ? servicesFullMenuItems : portfolioFullMenuItems;
 
   return (
-    <li
-      className={`relative hidden h-[26px] shrink-0 items-center font-headline text-xl leading-normal font-normal tracking-normal lg:flex ${widthClass}`}
-    >
+    <li className={styles.navDropdownHost} onMouseEnter={() => onOpen(menu)} onMouseLeave={onClose}>
       <button
         aria-controls={menuId}
         aria-expanded={isOpen}
-        className={`group grid h-[26px] w-full grid-cols-[1fr_13px] items-center gap-x-1.5 text-left text-ink ${resetButtonClass} ${focusRingClass} hover:text-brand focus-visible:text-brand ${isOpen ? "text-brand" : ""}`}
-        onClick={() => onToggle(menu)}
+        className={`${styles.navLink} ${styles.navButton} ${focusRingClass}`}
+        onClick={() => onOpen(menu)}
         type="button"
       >
         <span>{label}</span>
-        <span
-          aria-hidden="true"
-          className={`relative block h-2 w-[13px] ${
-            isOpen ? "origin-center translate-x-px -rotate-90" : ""
-          }`}
-        >
-          <Image
-            alt=""
-            className={`absolute inset-0 h-2 w-[13px] ${
-              isOpen
-                ? "opacity-0"
-                : "opacity-100 group-hover:opacity-0 group-focus-visible:opacity-0"
-            }`}
-            height={8}
-            src="/icons/header/nav-arrow-default.png"
-            unoptimized
-            width={13}
-          />
-          <Image
-            alt=""
-            className={`absolute inset-0 h-2 w-[13px] ${
-              isOpen
-                ? "opacity-100"
-                : "opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100"
-            }`}
-            height={8}
-            src="/icons/header/nav-arrow-hover.png"
-            unoptimized
-            width={13}
-          />
-        </span>
+        <span className={styles.navChevron} aria-hidden="true" data-open={isOpen}>⌄</span>
       </button>
 
       {isOpen ? (
         <DropdownMenu
           id={menuId}
           items={items}
+          allHref={menu === "services" ? navigationRoutes.services : navigationRoutes.portfolio}
+          allLabel={menu === "services" ? "All services" : "All projects"}
           onNavigate={onNavigate}
           variant={menu}
         />
@@ -203,6 +131,7 @@ function HeaderDropdownTrigger({
 type FullScreenMenuProps = Readonly<{
   state: FullMenuState;
   menuPhase: FullMenuPhase;
+  menuButtonPosition: MenuButtonPosition | null;
   closeButtonRef: RefObject<HTMLButtonElement | null>;
   onClose: () => void;
   onMenuTransitionEnd: (event: React.TransitionEvent<HTMLDivElement>) => void;
@@ -212,6 +141,7 @@ type FullScreenMenuProps = Readonly<{
 function FullScreenMenu({
   state,
   menuPhase,
+  menuButtonPosition,
   closeButtonRef,
   onClose,
   onMenuTransitionEnd,
@@ -287,6 +217,16 @@ function FullScreenMenu({
       ref={overlayRef}
       role="dialog"
     >
+      <button
+        aria-label="Close navigation menu"
+        className={`${styles.closeButton} ${focusRingClass}`}
+        onClick={onClose}
+        ref={closeButtonRef}
+        style={menuButtonPosition ? { ...menuButtonPosition, right: "auto" } : undefined}
+        type="button"
+      >
+        <span className={styles.closeGlyph} aria-hidden="true"><span /><span /></span>
+      </button>
       <div
         className={`relative left-0 h-[max(100dvh,760px)] w-full overflow-hidden bg-surface text-brand md:h-[max(100dvh,820px)] lg:absolute lg:top-0 ${styles.fullMenu}`}
         data-state={state}
@@ -333,23 +273,6 @@ function FullScreenMenu({
           aria-hidden="true"
           className={`absolute bottom-[200px] left-0 z-[2] hidden h-[1.983790159px] w-full bg-divider md:block lg:top-[748px] lg:bottom-auto lg:left-px ${styles.dividerHorizontal}`}
         />
-
-        <button
-          aria-label="Close navigation menu"
-          className={`absolute top-[18px] right-4 left-auto z-[5] h-11 w-11 md:top-[26px] md:right-8 lg:top-[28px] lg:origin-top-right lg:scale-[0.8] ${resetButtonClass} ${focusRingClass} ${styles.closeButton}`}
-          onClick={onClose}
-          ref={closeButtonRef}
-          type="button"
-        >
-          <Image
-            alt=""
-            className="m-[5.5px] block h-[33px] w-[33px]"
-            height={33}
-            src="/icons/header/close.png"
-            unoptimized
-            width={33}
-          />
-        </button>
 
         <nav
           aria-label="Expanded desktop navigation"
@@ -543,12 +466,24 @@ export function Header() {
   const [openDropdown, setOpenDropdown] = useState<DropdownName | null>(null);
   const [fullMenuState, setFullMenuState] = useState<FullMenuState | null>(null);
   const [menuPhase, setMenuPhase] = useState<FullMenuPhase | null>(null);
+  const [menuButtonPosition, setMenuButtonPosition] = useState<MenuButtonPosition | null>(null);
   const headerRef = useRef<HTMLElement>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const wasFullMenuOpen = useRef(false);
   const isMenuMounted = fullMenuState !== null;
   const isFullMenuOpen = isMenuMounted || menuPhase === "closing";
+
+  useEffect(() => {
+    const update = () => {
+      if (headerRef.current) {
+        headerRef.current.dataset.scrolled = String(window.scrollY > 36);
+      }
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
 
   useEffect(() => {
     if (menuPhase !== "entering") {
@@ -633,11 +568,37 @@ export function Header() {
     }
   }, [menuPhase]);
 
-  function toggleDropdown(menu: DropdownName) {
-    setOpenDropdown((current) => (current === menu ? null : menu));
-  }
+  useEffect(() => {
+    if (!isFullMenuOpen) {
+      return;
+    }
+
+    function updateMenuButtonPosition() {
+      const bounds = hamburgerRef.current?.getBoundingClientRect();
+      if (bounds) {
+        setMenuButtonPosition({
+          top: bounds.top,
+          left: bounds.left,
+          width: bounds.width,
+          height: bounds.height,
+        });
+      }
+    }
+
+    window.addEventListener("resize", updateMenuButtonPosition);
+    return () => window.removeEventListener("resize", updateMenuButtonPosition);
+  }, [isFullMenuOpen]);
 
   function openFullMenu() {
+    const bounds = hamburgerRef.current?.getBoundingClientRect();
+    if (bounds) {
+      setMenuButtonPosition({
+        top: bounds.top,
+        left: bounds.left,
+        width: bounds.width,
+        height: bounds.height,
+      });
+    }
     setOpenDropdown(null);
     setFullMenuState("main");
     setMenuPhase(
@@ -660,83 +621,74 @@ export function Header() {
 
   return (
     <>
-      <header
-        className="sticky top-0 z-50 h-20 w-full bg-white/80 md:h-24 lg:h-[91.2px]"
-        ref={headerRef}
-      >
-        <div className="relative mx-auto h-20 w-[calc(100%-32px)] md:h-24 md:w-[calc(100%-64px)] lg:absolute lg:top-0 lg:left-1/2 lg:mx-0 lg:h-[114px] lg:w-[min(109.0494791667%,2093.75px)] lg:origin-top lg:-translate-x-1/2 lg:scale-[0.8]">
+      <header className={styles.siteHeader} ref={headerRef}>
+        <div className={styles.headerInner}>
           <Link
             aria-label="JCCM home"
-            className={`absolute top-2 left-0 flex h-16 w-56 text-ink no-underline max-[374px]:w-[108px] md:h-20 md:w-[300px] lg:top-[9px] lg:h-[97px] lg:w-[350px] ${focusRingClass}`}
+            className={`${styles.brand} ${focusRingClass}`}
             href={navigationRoutes.home}
           >
             <Image
               alt="JCCM"
-              className="h-16 w-[107.55px] shrink-0 md:h-20 md:w-[134.43px] lg:h-[97px] lg:w-[163px]"
+              className={styles.brandMark}
               height={97}
               priority
               src="/images/header/jccm-logo.png"
               unoptimized
               width={163}
             />
-            <span className="mt-4 ml-2 font-headline text-base leading-4 font-light tracking-normal whitespace-nowrap max-[374px]:hidden md:mt-[23px] md:ml-2.5 md:text-xl md:leading-5 lg:mt-[29px] lg:ml-[11px] lg:text-2xl lg:leading-6">
+            <span className={styles.brandText}>
               JC Construction
               <br />
               Management
             </span>
           </Link>
 
-          <nav
-            aria-label="Primary navigation"
-            className="absolute top-[18px] right-0 h-11 w-11 md:top-[26px] lg:top-[44px] lg:h-[26px] lg:w-[451px]"
-          >
-            <ul className="m-0 flex h-11 w-11 list-none items-start p-0 lg:h-[26px] lg:w-[451px] lg:items-center">
+          <nav aria-label="Primary navigation" className={styles.primaryNav}>
+            <ul className={styles.navList}>
               <HeaderDropdownTrigger
                 isOpen={openDropdown === "services"}
                 label="Services"
                 menu="services"
                 onNavigate={() => setOpenDropdown(null)}
-                onToggle={toggleDropdown}
+                onOpen={setOpenDropdown}
+                onClose={() => setOpenDropdown(null)}
               />
               <HeaderDropdownTrigger
                 isOpen={openDropdown === "portfolio"}
-                label="Portfolio"
+                label="Projects"
                 menu="portfolio"
                 onNavigate={() => setOpenDropdown(null)}
-                onToggle={toggleDropdown}
+                onOpen={setOpenDropdown}
+                onClose={() => setOpenDropdown(null)}
               />
-              <li className="relative ml-[42px] hidden h-[26px] w-[102px] shrink-0 items-center font-headline text-xl leading-normal font-normal tracking-normal lg:flex">
+              <li className={styles.navItem}>
                 <Link
-                  className={`flex h-[26px] w-[102px] items-center text-ink no-underline hover:text-brand focus-visible:text-brand ${focusRingClass}`}
-                  href={navigationRoutes.contact}
+                  className={`${styles.navLink} ${focusRingClass}`}
+                  href={navigationRoutes.about}
                 >
-                  Contact us
+                  About
                 </Link>
-              </li>
-              <li className="relative mt-0 h-11 w-11 lg:ml-[50px] lg:flex lg:h-[26px] lg:w-3.5 lg:items-center">
-                <button
-                  aria-controls="full-screen-navigation"
-                  aria-expanded={isMenuMounted}
-                  aria-label="Open navigation menu"
-                  className={`relative block h-11 w-11 lg:h-[26px] lg:w-3.5 ${resetButtonClass} ${focusRingClass}`}
-                  id="desktop-menu-trigger"
-                  onClick={openFullMenu}
-                  ref={hamburgerRef}
-                  type="button"
-                >
-                  <Image
-                    alt=""
-                    aria-hidden="true"
-                    className="absolute top-1/2 left-1/2 h-3 w-3.5 -translate-x-1/2 -translate-y-1/2 lg:left-0 lg:translate-x-0"
-                    height={12}
-                    src="/icons/header/hamburger.png"
-                    unoptimized
-                    width={14}
-                  />
-                </button>
               </li>
             </ul>
           </nav>
+
+          <div className={styles.headerActions}>
+            <Link className={`${styles.projectCta} ${focusRingClass}`} href={navigationRoutes.contact}>
+              Start a Project <span aria-hidden="true">↗</span>
+            </Link>
+            <button
+              aria-label="Open navigation menu"
+              aria-controls="full-screen-navigation"
+              aria-expanded={isMenuMounted}
+              className={`${styles.mobileMenuButton} ${focusRingClass}`}
+              onClick={openFullMenu}
+              ref={hamburgerRef}
+              type="button"
+            >
+              <span className={styles.menuGlyph} aria-hidden="true"><span /><span /><span /></span>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -744,6 +696,7 @@ export function Header() {
         <div id="full-screen-navigation">
           <FullScreenMenu
             closeButtonRef={closeButtonRef}
+            menuButtonPosition={menuButtonPosition}
             menuPhase={menuPhase}
             onClose={closeFullMenu}
             onMenuTransitionEnd={handleMenuTransitionEnd}

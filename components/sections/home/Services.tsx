@@ -218,7 +218,6 @@ export function Services() {
                   id={tabId}
                   key={service.id}
                   onClick={() => selectService(index)}
-                  onMouseEnter={() => selectService(index)}
                   ref={(element) => {
                     tabRefs.current[index] = element;
                   }}
@@ -346,7 +345,6 @@ export function Services() {
                 }`}
                 key={service.id}
                 onClick={() => selectService(index)}
-                onMouseEnter={() => selectService(index)}
                 type="button"
               />
             );
