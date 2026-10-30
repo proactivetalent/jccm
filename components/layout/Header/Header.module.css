@@ -92,24 +92,45 @@
 .navChevron[data-open="true"] { transform: rotate(180deg); }
 
 .projectCta {
+  position: relative;
+  box-sizing: border-box;
   display: inline-flex;
-  height: 44px;
+  height: 48px;
+  width: 190px;
   align-items: center;
-  justify-content: center;
-  gap: 24px;
-  padding: 0 17px;
+  justify-content: flex-start;
+  padding: 0;
+  border: 1px solid var(--jccm-color-brand);
   background: var(--jccm-color-brand-deep);
   color: #fff;
-  font-family: var(--font-jccm-headline), sans-serif;
-  font-size: 15px;
-  font-weight: 500;
+  font-family: var(--font-jccm-body), sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 16px;
   text-decoration: none;
   white-space: nowrap;
   transition: background 180ms ease, transform 180ms ease;
 }
 
-.projectCta:hover { background: var(--jccm-color-brand); transform: translateY(-2px); }
-.projectCta span { font-size: 19px; font-weight: 300; }
+.projectCta:hover { background: var(--jccm-color-brand); }
+.projectCtaArrow {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  display: block;
+  width: 40px;
+  height: 40px;
+  background: url('/icons/home/cta-arrow.png') center / contain no-repeat;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.projectCta:hover .projectCtaArrow,
+.projectCta:focus-visible .projectCtaArrow { transform: rotate(45deg); }
+.projectCtaLabel {
+  position: absolute;
+  top: 15px;
+  left: 56px;
+  white-space: nowrap;
+}
 
 .navDropdown {
   position: absolute;
@@ -273,17 +294,17 @@
 
 .headerActions { display: flex; height: 100%; align-items: center; gap: 7px; margin-left: 45px; }
 .projectCta {
-  height: 52px;
-  gap: 24px;
-  padding: 0 17px;
+  height: 48px;
+  width: 190px;
+  padding: 0;
   border-radius: 2px;
   background: #2d8073;
   color: #fff;
   font-size: 14px;
   box-shadow: 0 4px 12px rgb(19 95 83 / 13%), inset 0 1px rgb(255 255 255 / 25%);
 }
-.projectCta:hover { background: #216b60; color: #fff; }
-.siteHeader[data-scrolled="true"] .projectCta,
+.projectCta:hover { background: #2d8073; color: #fff; }
+.siteHeader[data-scrolled="true"] .projectCta { height: 48px; }
 .siteHeader[data-scrolled="true"] .mobileMenuButton { height: 52px; }
 .mobileMenuButton {
   display: inline-flex;
@@ -401,9 +422,10 @@
   .siteHeader[data-scrolled="true"] .brandMark { width: 76px; height: 49px; }
   .brandText { font-size: 15px; }
   .headerActions { margin-left: auto; }
-  .projectCta { height: 46px; }
+  .projectCta { height: 48px; width: 190px; }
+  .projectCtaArrow { top: 4px; left: 4px; }
   .mobileMenuButton { display: inline-flex; width: 46px; min-width: 46px; height: 46px; }
-  .siteHeader[data-scrolled="true"] .projectCta,
+  .siteHeader[data-scrolled="true"] .projectCta { height: 48px; }
   .siteHeader[data-scrolled="true"] .mobileMenuButton { height: 46px; }
   .closeButton { top: 17px; right: 19px; width: 46px; height: 46px; }
 }
@@ -417,7 +439,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .headerInner, .projectCta, .mobileMenuButton, .closeButton, .menuGlyph span, .navLink::after, .dropdownArrow { transition: none; }
+  .headerInner, .projectCta, .projectCtaArrow, .mobileMenuButton, .closeButton, .menuGlyph span, .navLink::after, .dropdownArrow { transition: none; }
 }
 
 .fullMenuSlide {

@@ -4,7 +4,6 @@ import { Hero } from "@/components/sections/home/Hero";
 import { HeroExpertiseTransition } from "@/components/sections/home/HeroExpertiseTransition";
 import { Portfolio } from "@/components/sections/home/Portfolio";
 import { Process } from "@/components/sections/home/Process";
-import { ReadyToBuild } from "@/components/sections/home/ReadyToBuild";
 import { Services } from "@/components/sections/home/Services";
 import { Testimonials } from "@/components/sections/home/Testimonials";
 import { TrustedExpertise } from "@/components/sections/home/TrustedExpertise";
@@ -20,12 +19,11 @@ export default function HomePage() {
         <HeroExpertiseTransition hero={<Hero />}>
           <TrustedExpertise />
         </HeroExpertiseTransition>
-        <Portfolio />
+        <Portfolio autoScroll />
         <Services />
         <Process />
         <Values />
         <Testimonials />
-        <ReadyToBuild />
       </main>
       <Footer />
     </>

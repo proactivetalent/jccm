@@ -69,74 +69,41 @@
 }
 
 .carouselArrow {
+  display: grid;
+  width: var(--testimonials-arrow-size);
+  height: var(--testimonials-arrow-size);
   align-self: center;
+  place-items: center;
   margin-top: 0;
   flex-shrink: 0;
-  border: 0;
+  border: 1px solid var(--jccm-color-brand);
+  border-radius: 6px;
   padding: 0;
-  background: transparent;
+  background: var(--jccm-color-surface);
+  color: var(--jccm-color-brand);
   cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background 180ms ease, color 180ms ease;
 }
 
-.carouselArrowIcon {
+.carouselArrow svg {
   display: block;
-  width: 54px;
-  height: 54px;
-  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  width: 26px;
+  height: 26px;
 }
 
-.carouselArrowIconPrev {
+.carouselArrow[data-direction="prev"] svg {
   transform: rotate(180deg);
 }
 
+.carouselArrow:hover,
 .carouselArrow:focus-visible {
-  outline: 2px solid var(--jccm-color-text);
-  outline-offset: 2px;
+  background: var(--jccm-color-brand);
+  color: var(--jccm-color-surface);
 }
 
-@media (hover: hover) {
-  .carouselArrow:hover {
-    transform: scale(1.06);
-  }
-
-  .carouselArrowPrev:hover {
-    transform: scale(1.06) translateX(-3px);
-  }
-
-  .carouselArrowNext:hover {
-    transform: scale(1.06) translateX(3px);
-  }
-
-  .carouselArrow:hover .carouselArrowIcon {
-    transform: scale(1.02);
-  }
-
-  .carouselArrowPrev:hover .carouselArrowIcon {
-    transform: rotate(180deg) scale(1.02);
-  }
-}
-
-.carouselArrow:active {
-  transform: scale(0.94);
-  transition-duration: 80ms;
-}
-
-.carouselArrowPrev:active {
-  transform: scale(0.94) translateX(-1px);
-}
-
-.carouselArrowNext:active {
-  transform: scale(0.94) translateX(1px);
-}
-
-.carouselArrow:active .carouselArrowIcon {
-  transform: scale(0.98);
-}
-
-.carouselArrowPrev:active .carouselArrowIcon {
-  transform: rotate(180deg) scale(0.98);
+.carouselArrow:focus-visible {
+  outline: 2px solid var(--jccm-color-brand-deep);
+  outline-offset: 3px;
 }
 
 .locationLink {
@@ -293,7 +260,6 @@
   }
 
   .carouselArrow,
-  .carouselArrowIcon,
   .paginationButton {
     transition: none;
   }

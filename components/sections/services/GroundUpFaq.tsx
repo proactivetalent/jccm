@@ -2,8 +2,6 @@
 
 import { useId, useState } from "react";
 
-import styles from "./GroundUpFaq.module.css";
-
 export type FaqItem = Readonly<{
   question: string;
   answer: string;
@@ -27,11 +25,14 @@ const defaultFaqs: readonly FaqItem[] = [
   },
 ] as const;
 
-function ExpandIcon({ open, size }: Readonly<{ open: boolean; size: "mobile" | "desktop" }>) {
+function ExpandIcon({ open }: Readonly<{ open: boolean }>) {
   return (
-    <span aria-hidden="true" className={`relative grid shrink-0 place-items-center rounded-full transition-colors duration-300 ${size === "mobile" ? "size-10" : "size-[46px]"} ${open ? "bg-brand text-white" : "bg-[#f0f1f8] text-[#74749b]"}`}>
-      <span className="absolute h-[2px] w-3 bg-current transition-transform duration-300" />
-      <span className={`absolute h-[2px] w-3 bg-current transition-transform duration-300 ${open ? "rotate-90" : ""}`} />
+    <span
+      aria-hidden="true"
+      className={`relative grid size-11 shrink-0 place-items-center rounded-full border transition-colors duration-300 motion-reduce:transition-none ${open ? "border-brand bg-brand text-white" : "border-brand/20 bg-white text-brand"}`}
+    >
+      <span className="absolute h-px w-4 bg-current" />
+      <span className={`absolute h-px w-4 bg-current transition-transform duration-300 motion-reduce:transition-none ${open ? "rotate-90" : ""}`} />
     </span>
   );
 }
@@ -51,28 +52,34 @@ export function GroundUpFaq({
   const baseId = useId();
 
   return (
-    <section aria-labelledby={`${idPrefix}-title`} className={`relative overflow-hidden bg-surface ${styles.section}`}>
+    <section aria-labelledby={`${idPrefix}-title`} className="relative overflow-hidden bg-surface min-[1024px]:max-[1535px]:h-[43.75vw] min-[1536px]:h-[672px]">
       <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-7 z-[1] hidden w-px bg-divider/70 lg:block" />
       <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-7 z-[1] hidden w-px bg-divider/70 lg:block" />
       <span aria-hidden="true" className="pointer-events-none absolute right-0 bottom-0 left-0 z-[1] h-px bg-divider" />
 
       <div className="mx-auto max-w-3xl px-6 py-16 md:px-10 md:py-20 lg:hidden">
-        <h2 id={`${idPrefix}-title`} className="m-0 text-center font-headline text-[clamp(42px,9vw,72px)] leading-none font-normal tracking-[-0.03em] text-ink">
+        <p className="m-0 font-body text-xs font-semibold tracking-[0.2em] text-brand uppercase">Common questions</p>
+        <h2 className="mt-5 mb-0 font-headline text-[clamp(48px,10vw,72px)] leading-[0.98] font-normal tracking-[-0.03em] text-ink" id={`${idPrefix}-title`}>
           {title}
         </h2>
-        <div className="mt-12 flex flex-col gap-5">
+        <p className="mt-6 mb-0 max-w-xl font-body text-base leading-[1.45] text-ink-strong">
+          Clear answers about how we coordinate the people, decisions, and details behind a successful project.
+        </p>
+        <div className="mt-10 border-t border-brand/20">
           {faqs.map((faq, index) => {
             const open = openIndex === index;
-            const triggerId = `${baseId}-trigger-${index}`;
-            const panelId = `${baseId}-panel-${index}`;
+            const triggerId = `${baseId}-mobile-trigger-${index}`;
+            const panelId = `${baseId}-mobile-panel-${index}`;
+
             return (
-              <article className={`overflow-hidden rounded-card border bg-white shadow-[0_3px_8px_rgba(38,48,88,0.07)] transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(38,48,88,0.1)] ${open ? "border-brand/50 shadow-[0_6px_18px_rgba(43,127,115,0.12)]" : "border-[#d8dce9]"}`} key={faq.question}>
-                <button aria-controls={panelId} aria-expanded={open} className="flex min-h-[92px] w-full items-center justify-between gap-6 border-0 bg-transparent px-6 py-5 text-left font-headline text-[22px] leading-[1.2] font-semibold text-[#18144e] focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-brand" id={triggerId} onClick={() => setOpenIndex(open ? -1 : index)} type="button">
-                  {faq.question}
-                  <ExpandIcon open={open} size="mobile" />
+              <article className={`border-b border-brand/20 ${open ? "bg-white/60" : ""}`} key={faq.question}>
+                <button aria-controls={panelId} aria-expanded={open} className="flex min-h-[88px] w-full items-center gap-4 border-0 bg-transparent px-4 py-5 text-left font-[inherit] text-ink focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-brand" id={triggerId} onClick={() => setOpenIndex(open ? -1 : index)} type="button">
+                  <span className="w-7 shrink-0 font-body text-sm font-medium text-brand">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="min-w-0 flex-1 font-headline text-xl leading-[1.2] font-medium">{faq.question}</span>
+                  <ExpandIcon open={open} />
                 </button>
-                <div aria-hidden={!open} aria-labelledby={triggerId} className={`overflow-hidden transition-[max-height,opacity] duration-300 ease-out motion-reduce:transition-none ${open ? "max-h-60 opacity-100" : "max-h-0 opacity-0"}`} id={panelId} role="region">
-                  <div className="border-t border-brand/10 px-6 pt-4 pb-6 font-body text-[18px] leading-[1.55] text-[#74749b]">{faq.answer}</div>
+                <div aria-hidden={!open} aria-labelledby={triggerId} className={`grid transition-[grid-template-rows,opacity] duration-300 motion-reduce:transition-none ${open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`} id={panelId} role="region">
+                  <div className="min-h-0 overflow-hidden pl-[60px] pr-16 pb-6 font-body text-base leading-[1.5] text-ink-strong">{faq.answer}</div>
                 </div>
               </article>
             );
@@ -80,23 +87,33 @@ export function GroundUpFaq({
         </div>
       </div>
 
-      <div className={`absolute top-0 hidden h-[800px] w-[1920px] lg:block ${styles.canvas}`}>
-        <h2 id={`${idPrefix}-title-desktop`} className="absolute top-[88px] left-[260px] m-0 w-[1400px] text-center font-headline text-[64px] leading-[1.1] font-normal tracking-[-0.03em] text-ink">
-          {title}
-        </h2>
-        <div className="absolute top-[232px] left-[280px] flex w-[1440px] flex-col gap-[25px]">
+      <div className="absolute top-0 hidden h-[840px] w-[1920px] origin-top-left min-[1024px]:block min-[1024px]:max-[1535px]:left-0 min-[1024px]:max-[1535px]:[scale:calc(100vw_/_1920px)] min-[1024px]:max-[1535px]:[translate:none] min-[1536px]:left-[calc(50%_-_768px)] min-[1536px]:[scale:0.8] min-[1536px]:[translate:none]">
+        <div className="absolute top-[112px] left-[197px] w-[500px]">
+          <p className="m-0 font-body text-[14px] font-semibold tracking-[0.2em] text-brand uppercase">Common questions</p>
+          <h2 className="mt-[25px] mb-0 font-headline text-[72px] leading-[80px] font-normal tracking-[-0.03em] text-ink" id={`${idPrefix}-title-desktop`}>
+            {title}
+          </h2>
+          <span aria-hidden="true" className="mt-[30px] block h-1 w-[114px] bg-brand" />
+          <p className="mt-[24px] mb-0 w-[440px] font-body text-[20px] leading-[1.35] text-ink-strong">
+            Clear answers about how we coordinate the people, decisions, and details behind a successful project.
+          </p>
+        </div>
+
+        <div className="absolute top-[112px] left-[850px] w-[870px] border-t border-brand/25">
           {faqs.map((faq, index) => {
             const open = openIndex === index;
             const triggerId = `${baseId}-desktop-trigger-${index}`;
             const panelId = `${baseId}-desktop-panel-${index}`;
+
             return (
-              <article className={`overflow-hidden rounded-card border bg-white shadow-[0_3px_8px_rgba(38,48,88,0.07)] transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_26px_rgba(38,48,88,0.1)] ${open ? "border-brand/50 shadow-[0_8px_24px_rgba(43,127,115,0.12)]" : "border-[#d8dce9]"}`} key={`desktop-${faq.question}`}>
-                <button aria-controls={panelId} aria-expanded={open} className="flex min-h-[115px] w-full items-center justify-between gap-8 border-0 bg-transparent px-[42px] py-6 text-left font-headline text-[26px] leading-[1.2] font-semibold text-[#18144e] focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-brand" id={triggerId} onClick={() => setOpenIndex(open ? -1 : index)} type="button">
-                  <span>{faq.question}</span>
-                  <ExpandIcon open={open} size="desktop" />
+              <article className={`border-b border-brand/25 ${open ? "bg-white/65" : ""}`} key={`desktop-${faq.question}`}>
+                <button aria-controls={panelId} aria-expanded={open} className="flex min-h-[116px] w-full items-center gap-6 border-0 border-l-[10px] border-l-transparent bg-transparent px-[32px] py-6 text-left font-[inherit] text-ink transition-colors duration-300 data-[open=true]:border-l-brand focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-brand" data-open={open ? "true" : "false"} id={triggerId} onClick={() => setOpenIndex(open ? -1 : index)} type="button">
+                  <span className="w-11 shrink-0 font-body text-[18px] font-medium text-brand">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="min-w-0 flex-1 font-headline text-[30px] leading-[1.15] font-medium">{faq.question}</span>
+                  <ExpandIcon open={open} />
                 </button>
-                <div aria-hidden={!open} aria-labelledby={triggerId} className={`overflow-hidden transition-[max-height,opacity] duration-300 ease-out motion-reduce:transition-none ${open ? "max-h-52 opacity-100" : "max-h-0 opacity-0"}`} id={panelId} role="region">
-                  <div className="border-t border-brand/10 px-[42px] pt-5 pb-[38px] font-body text-[20px] leading-[1.55] text-[#74749b]">{faq.answer}</div>
+                <div aria-hidden={!open} aria-labelledby={triggerId} className={`grid transition-[grid-template-rows,opacity] duration-300 motion-reduce:transition-none ${open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`} id={panelId} role="region">
+                  <div className="min-h-0 overflow-hidden pl-[95px] pr-[94px] pb-8 font-body text-[18px] leading-[1.5] text-ink-strong">{faq.answer}</div>
                 </div>
               </article>
             );

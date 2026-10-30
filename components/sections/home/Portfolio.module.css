@@ -6,7 +6,43 @@
   aspect-ratio: 445 / 436;
 }
 
+.marqueeViewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  cursor: grab;
+  touch-action: pan-x pan-y;
+}
+
+.marqueeViewport::-webkit-scrollbar {
+  display: none;
+}
+
+.marqueeViewport[data-dragging="true"] {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.marqueeTrack {
+  display: flex;
+  width: max-content;
+  gap: 20px;
+}
+
+.marqueeGroup {
+  display: grid;
+  grid-auto-columns: min(76vw, 380px);
+  grid-auto-flow: column;
+  align-items: start;
+  gap: 20px;
+  flex: none;
+}
+
 @media (min-width: 768px) and (max-width: 1023px) {
+  .marqueeGroup {
+    grid-auto-columns: min(42vw, 380px);
+  }
+
   .tallCard {
     padding-bottom: 0;
   }
@@ -17,6 +53,15 @@
 }
 
 @media (min-width: 1024px) {
+  .marqueeTrack,
+  .marqueeGroup {
+    gap: 27px;
+  }
+
+  .marqueeGroup {
+    grid-auto-columns: 445px;
+  }
+
   .projectsGrid {
     grid-template-columns: repeat(4, 445px);
   }

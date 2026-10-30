@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-page-custom-font */
 import type { Metadata } from "next";
 import { Figtree, Geist } from "next/font/google";
+import localFont from "next/font/local";
 import type { ReactNode } from "react";
 
 import { SanityLive } from "@/sanity/lib/live";
@@ -18,6 +18,20 @@ const figtree = Figtree({
   weight: ["600", "700"],
 });
 
+const stackSansHeadline = localFont({
+  src: "./fonts/StackSansHeadline-Latin.woff2",
+  variable: "--font-stack-headline",
+  weight: "200 700",
+  display: "block",
+});
+
+const stackSansText = localFont({
+  src: "./fonts/StackSansText-Latin.woff2",
+  variable: "--font-stack-text",
+  weight: "200 700",
+  display: "block",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "JCCM",
@@ -30,27 +44,12 @@ type RootLayoutProps = Readonly<{
   children: ReactNode;
 }>;
 
-/**
- * Stack Sans Headline / Text are loaded via Google Fonts CSS (not next/font)
- * because Next has no size-adjust metrics for them yet, which floods the
- * Turbopack console with "Failed to find font override values" warnings.
- */
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
-      <head>
-        <link href="https://fonts.googleapis.com" rel="preconnect" />
-        <link
-          crossOrigin="anonymous"
-          href="https://fonts.gstatic.com"
-          rel="preconnect"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Stack+Sans+Headline:wght@300;400;500;600&family=Stack+Sans+Text:wght@300;400;500&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className={`${geist.variable} ${figtree.variable}`}>
+      <body
+        className={`${geist.variable} ${figtree.variable} ${stackSansHeadline.variable} ${stackSansText.variable}`}
+      >
         {children}
         <SanityLive />
       </body>

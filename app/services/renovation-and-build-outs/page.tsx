@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Footer } from "@/components/layout/Footer/Footer";
 import { Header } from "@/components/layout/Header/Header";
 import { Portfolio } from "@/components/sections/home/Portfolio";
-import { ReadyToBuild } from "@/components/sections/home/ReadyToBuild";
 import { ResidentialRenovationIntro } from "@/components/sections/services/ResidentialRenovationIntro";
 import { ResidentialRenovationServices } from "@/components/sections/services/ResidentialRenovationServices";
 import { ResidentialDifference } from "@/components/sections/services/ResidentialDifference";
@@ -131,7 +130,6 @@ export default function ResidentialRenovationsPage() {
         <ResidentialDifference />
         <Portfolio />
         <GroundUpFaq faqs={renovationFaqs} idPrefix="residential-faq" />
-        <ReadyToBuild />
       </main>
       <Footer />
     </>

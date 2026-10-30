@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useState, type CSSProperties } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { processSteps } from "./processData";
 import styles from "./Process.module.css";
@@ -42,6 +42,30 @@ function ExploreLink() {
 
 export function Process() {
   const [activeCardId, setActiveCardId] = useState<string | null>(null);
+  const cardRefs = useRef<Array<HTMLLIElement | null>>([]);
+
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) return;
+
+    const cards = cardRefs.current.filter((card): card is HTMLLIElement => Boolean(card));
+    cards.forEach((card) => {
+      card.dataset.reveal = "armed";
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          (entry.target as HTMLElement).dataset.reveal = "visible";
+          observer.unobserve(entry.target);
+        });
+      },
+      { rootMargin: "0px 0px 20% 0px", threshold: 0.08 },
+    );
+
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, []);
 
   const handleCardActivate = useCallback((id: string) => {
     if (!window.matchMedia("(max-width: 1023px)").matches) {
@@ -118,9 +142,13 @@ export function Process() {
                     handleCardActivate(step.id);
                   }
                 }}
+                ref={(element) => {
+                  cardRefs.current[index] = element;
+                }}
                 style={
                   {
                     "--card-left": `${cardLeft[index]}px`,
+                    "--reveal-delay": `${index * 110}ms`,
                   } as CSSProperties
                 }
                 tabIndex={0}
@@ -145,6 +173,7 @@ export function Process() {
                   aria-hidden="true"
                   className={`relative z-[1] h-[52px] w-[52px] shrink-0 md:h-[56px] md:w-[56px] lg:h-[63px] lg:w-[63px] ${styles.cardIcon}`}
                   height={63}
+                  loading="eager"
                   src={step.icon}
                   unoptimized
                   width={63}

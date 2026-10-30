@@ -6,11 +6,10 @@ import {
   type KeyboardEvent,
   type ReactNode,
   useId,
+  useLayoutEffect,
   useRef,
   useState,
 } from "react";
-
-import styles from "./ServicesStandard.module.css";
 
 export type StandardFeature = Readonly<{
   title: string;
@@ -160,11 +159,33 @@ export function ServicesStandard({
 }: ServicesStandardProps = {}) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState<"up" | "down">("down");
+  const [phasePanelHeight, setPhasePanelHeight] = useState<number | null>(null);
   const baseId = useId();
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const phaseContentRef = useRef<HTMLDivElement | null>(null);
   const desktopIndex = activeIndex < 0 ? 0 : activeIndex;
   const activeItem = items[desktopIndex];
   const panelId = `${baseId}-standard-panel`;
+
+  useLayoutEffect(() => {
+    if (variant !== "phases" || !phaseContentRef.current) return;
+
+    const content = phaseContentRef.current;
+    const panel = content.parentElement;
+    const image = panel?.firstElementChild;
+    if (!panel || !(image instanceof HTMLElement)) return;
+
+    const updateHeight = () => {
+      const border = parseFloat(getComputedStyle(panel).borderTopWidth) +
+        parseFloat(getComputedStyle(panel).borderBottomWidth);
+      setPhasePanelHeight(Math.max(635, image.offsetHeight + content.offsetHeight + border));
+    };
+
+    updateHeight();
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(content);
+    return () => observer.disconnect();
+  }, [desktopIndex, variant]);
 
   const selectItem = (index: number, focusTab = false) => {
     const previous = activeIndex < 0 ? 0 : activeIndex;
@@ -195,7 +216,7 @@ export function ServicesStandard({
   return (
     <section
       aria-labelledby="services-standard-title"
-      className={`relative overflow-x-clip bg-surface lg:overflow-clip ${styles.sectionScale}`}
+      className={`relative overflow-x-clip bg-surface lg:overflow-clip ${variant === "phases" ? "" : "min-[1024px]:max-[1535px]:h-[54.2708333vw] min-[1536px]:h-[min(1042px,54.2708333vw)]"}`}
     >
       <span
         aria-hidden="true"
@@ -289,7 +310,9 @@ export function ServicesStandard({
       </div>
 
       <div
-        className={`relative hidden h-[1042px] w-[1920px] lg:absolute lg:top-0 lg:left-1/2 lg:block lg:origin-top lg:-translate-x-1/2 ${styles.canvasScale}`}
+        className={variant === "phases"
+          ? "relative hidden w-[1920px] min-[1024px]:mx-auto min-[1024px]:block min-[1024px]:[zoom:min(1,calc(100vw_/_1920px))]"
+          : "relative hidden h-[1042px] w-[1920px] min-[1024px]:absolute min-[1024px]:top-0 min-[1024px]:block min-[1024px]:max-[1535px]:left-0 min-[1024px]:max-[1535px]:origin-top-left min-[1024px]:max-[1535px]:[transform:scale(calc(100vw_/_1920px))] min-[1024px]:max-[1535px]:[translate:none] min-[1536px]:left-1/2 min-[1536px]:origin-top min-[1536px]:-translate-x-1/2 min-[1536px]:[transform:scale(min(1,calc(100vw_/_1920px)))]"}
       >
         <h2
           className={`absolute top-[143px] left-[197px] m-0 ${variant === "phases" ? "h-[160px] w-[1250px] leading-[72px]" : "h-[90px] w-[760px] leading-[89.297px]"} font-headline text-[72px] font-normal whitespace-nowrap text-ink`}
@@ -299,21 +322,25 @@ export function ServicesStandard({
         </h2>
         {description ? <p className="absolute top-[169px] left-[1283px] m-0 w-[473px] font-body text-base leading-[1.23] font-medium text-ink">{description}</p> : null}
 
-        <div className={`absolute ${variant === "phases" ? "top-[350px]" : "top-[303px]"} left-[124px] h-[610px] w-[1673px]`}>
-          <Image
-            alt=""
-            aria-hidden="true"
-            className={`pointer-events-none absolute top-0 ${variant === "phases" ? "left-[620px] h-[635px] w-[1053px]" : "left-[487px] h-[574px] w-[1186px]"} max-w-none`}
-            height={variant === "phases" ? 635 : 574}
-            src={panelSrc}
-            unoptimized
-            width={1186}
-          />
+        <div className={variant === "phases"
+          ? "relative ml-[124px] w-[1673px] pt-[350px] pb-[72px]"
+          : "absolute top-[303px] left-[124px] h-[610px] w-[1673px]"}>
+          {variant === "standard" ? (
+            <Image
+              alt=""
+              aria-hidden="true"
+              className="pointer-events-none absolute top-0 left-[487px] h-[574px] w-[1186px] max-w-none"
+              height={574}
+              src={panelSrc}
+              unoptimized
+              width={1186}
+            />
+          ) : null}
 
           <div
             aria-label="JCCM standards"
             aria-orientation="vertical"
-            className={`absolute top-0 left-0 ${variant === "phases" ? "h-[635px] w-[620px]" : "h-[574px] w-[488px]"} overflow-hidden rounded-l-card border border-[#d8d8d8] bg-white`}
+            className={`absolute left-0 ${variant === "phases" ? "top-[350px] bottom-[72px] w-[620px]" : "top-0 h-[574px] w-[488px]"} overflow-hidden rounded-l-card border border-[#d8d8d8] bg-white`}
             role="tablist"
           >
             {items.map((item, index) => {
@@ -354,9 +381,12 @@ export function ServicesStandard({
 
           <div
             aria-labelledby={`${baseId}-standard-tab-${activeItem.id}`}
-            className={`absolute top-0 ${variant === "phases" ? "left-[620px] h-[635px] w-[1053px]" : "left-[488px] h-[574px] w-[1185px]"} overflow-hidden rounded-r-card`}
+            className={variant === "phases"
+              ? "relative ml-[620px] min-h-[635px] w-[1053px] overflow-hidden rounded-r-card border border-[#d8d8d8] bg-white transition-[height] duration-[450ms] ease-[cubic-bezier(0.4,0,0.2,1)] motion-reduce:transition-none"
+              : "absolute top-0 left-[488px] h-[574px] w-[1185px] overflow-hidden rounded-r-card"}
             id={panelId}
             role="tabpanel"
+            style={variant === "phases" && phasePanelHeight !== null ? { height: phasePanelHeight } : undefined}
           >
             <div className={`relative ${variant === "phases" ? "h-[211px] w-[1053px]" : "h-[134px] w-[1185px]"} overflow-hidden rounded-tr-card`}>
               <Image
@@ -373,7 +403,8 @@ export function ServicesStandard({
             </div>
 
             <div
-              className={`grid ${variant === "phases" ? "h-[424px]" : "h-[440px]"} grid-cols-[440px_1fr] gap-[70px] ${variant === "phases" ? "pt-[44px]" : "pt-[44px]"} pr-[56px] pb-8 pl-[61px]`}
+              className={`grid ${variant === "phases" ? "min-h-[424px]" : "h-[440px]"} grid-cols-[440px_1fr] gap-[70px] pt-[44px] pr-[56px] pb-8 pl-[61px]`}
+              ref={variant === "phases" ? phaseContentRef : undefined}
               style={
                 {
                   "--ty": direction === "down" ? "16px" : "-16px",
@@ -412,7 +443,7 @@ export function ServicesStandard({
             </div>
           </div>
 
-          <div className={`absolute ${variant === "phases" ? "top-[694px]" : "top-[600px]"} left-1/2 flex -translate-x-1/2 items-center gap-2.5`}>
+          <div className={`absolute ${variant === "phases" ? "bottom-[28px]" : "top-[600px]"} left-1/2 flex -translate-x-1/2 items-center gap-2.5`}>
             {items.map((item, index) => {
               const selected = index === desktopIndex;
 

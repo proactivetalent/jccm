@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 
 import { Footer } from "@/components/layout/Footer/Footer";
 import { Header } from "@/components/layout/Header/Header";
-import { PortfolioContact } from "@/components/portfolio/PortfolioContact";
 import { PortfolioListing } from "@/components/portfolio/PortfolioListing";
 import { getPortfolioProjects, getPortfolioSettings } from "@/sanity/lib/data";
 import { getImageMetadata, urlForImage } from "@/sanity/lib/image";
@@ -86,7 +85,6 @@ export default async function PortfolioPage() {
           pageSize={settings?.projectsPerPage || 12}
           projects={listingProjects}
         />
-        <PortfolioContact />
       </main>
       <Footer />
     </>

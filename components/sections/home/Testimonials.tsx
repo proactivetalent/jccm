@@ -12,7 +12,6 @@ const TESTIMONIAL_CARD_WIDTH = 384;
 const TESTIMONIAL_CARD_GAP = 32;
 const TESTIMONIAL_SLIDE_STEP = TESTIMONIAL_CARD_WIDTH + TESTIMONIAL_CARD_GAP;
 const INVERTED_COMMAS_ICON = "/images/home/testimonial/inverted-commas.svg";
-const CAROUSEL_ARROW_ICON = "/images/home/testimonial/carousel-arrow.svg";
 
 function InvertedCommasIcon({
   className,
@@ -64,23 +63,24 @@ function CarouselArrow({
   return (
     <button
       aria-label={direction === "prev" ? "Previous testimonial" : "Next testimonial"}
-      className={`${styles.carouselArrow} ${
-        direction === "prev" ? styles.carouselArrowPrev : styles.carouselArrowNext
-      }`}
+      className={styles.carouselArrow}
+      data-direction={direction}
       onClick={onClick}
       type="button"
     >
-      <Image
-        alt=""
+      <svg
         aria-hidden="true"
-        className={`${styles.carouselArrowIcon} ${
-          direction === "prev" ? styles.carouselArrowIconPrev : ""
-        }`}
-        height={54}
-        src={CAROUSEL_ARROW_ICON}
-        unoptimized
-        width={54}
-      />
+        fill="none"
+        viewBox="0 0 28 28"
+      >
+        <path
+          d="M4.5 14H23.5M16 6.5L23.5 14L16 21.5"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.8"
+        />
+      </svg>
     </button>
   );
 }

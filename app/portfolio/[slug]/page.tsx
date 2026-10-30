@@ -11,7 +11,6 @@ import { CaseStudyInfoCards } from "@/components/portfolio/CaseStudyInfoCards";
 import { CaseStudyMetrics } from "@/components/portfolio/CaseStudyMetrics";
 import { CaseStudyPhases } from "@/components/portfolio/CaseStudyPhases";
 import { CaseStudyResults } from "@/components/portfolio/CaseStudyResults";
-import { PortfolioContact } from "@/components/portfolio/PortfolioContact";
 import { Portfolio } from "@/components/sections/home/Portfolio";
 import { getProjectBySlug } from "@/sanity/lib/data";
 import { getImageMetadata, urlForImage } from "@/sanity/lib/image";
@@ -253,7 +252,6 @@ export default async function CaseStudyPage({ params }: PageProps) {
         <CaseStudyResults project={project} />
         <CaseStudyMetrics project={project} />
         <Portfolio />
-        <PortfolioContact />
       </main>
       <Footer />
     </>

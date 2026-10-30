@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useId, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 
 import { ExploreLink } from "@/components/ui/ExploreLink";
 
@@ -47,6 +47,7 @@ function ServiceFeatures({
             aria-hidden="true"
             className="mt-0.5 h-10 w-10"
             height={40}
+            loading="eager"
             src={feature.icon}
             unoptimized
             width={40}
@@ -69,10 +70,29 @@ export function Services() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState<"up" | "down">("down");
   const baseId = useId();
+  const sectionRef = useRef<HTMLElement | null>(null);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const desktopIndex = activeIndex < 0 ? 0 : activeIndex;
   const activeService = services[desktopIndex];
   const panelId = `${baseId}-panel`;
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || !("IntersectionObserver" in window)) return;
+
+    section.dataset.reveal = "armed";
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        section.dataset.reveal = "visible";
+        observer.disconnect();
+      },
+      { rootMargin: "0px 0px -12% 0px", threshold: 0.08 },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   const selectService = (index: number, focusTab = false) => {
     const previous = activeIndex < 0 ? 0 : activeIndex;
@@ -101,11 +121,12 @@ export function Services() {
     <section
       aria-labelledby="home-services-title"
       className={`relative overflow-x-clip bg-surface lg:overflow-clip ${styles.sectionScale}`}
+      ref={sectionRef}
     >
       <div
         className={`relative box-border flex w-full max-w-full flex-col px-5 pt-10 pb-12 md:mx-auto md:max-w-[920px] md:px-6 md:pt-12 md:pb-14 lg:absolute lg:top-0 lg:left-1/2 lg:m-0 lg:block lg:h-[1075px] lg:w-[1920px] lg:max-w-none lg:origin-top lg:p-0 lg:-translate-x-1/2 ${styles.canvasScale}`}
       >
-        <header className="mb-7 flex w-full flex-col items-start lg:absolute lg:top-[98px] lg:left-[123px] lg:m-0 lg:h-[89px] lg:w-[1675px] lg:flex-row lg:items-start">
+        <header className={`mb-7 flex w-full flex-col items-start lg:absolute lg:top-[98px] lg:left-[123px] lg:m-0 lg:h-[89px] lg:w-[1675px] lg:flex-row lg:items-start ${styles.sectionHeader}`}>
           <div className="flex flex-wrap items-baseline gap-x-[14px] gap-y-2.5 lg:shrink-0 lg:flex-nowrap lg:items-start lg:gap-4">
             <h2
               className="m-0 font-headline text-[clamp(36px,9vw,52px)] leading-[1.05] font-normal tracking-normal whitespace-normal text-ink md:text-[48px] lg:text-[72px] lg:leading-none lg:whitespace-nowrap"
@@ -126,7 +147,7 @@ export function Services() {
           <ExploreLink className="mt-[18px] lg:mt-2.5 lg:ml-auto lg:shrink-0" href="/services" />
         </header>
 
-        <div className="flex w-full flex-col overflow-hidden rounded-card bg-white lg:hidden">
+        <div className={`flex w-full flex-col overflow-hidden rounded-card bg-white lg:hidden ${styles.mobileList}`}>
           {services.map((service, index) => {
             const open = index === activeIndex;
             const triggerId = `${baseId}-accordion-trigger-${service.id}`;
@@ -167,11 +188,12 @@ export function Services() {
                   role="region"
                 >
                   <div className="min-h-0 overflow-hidden px-4 opacity-0 transition-[opacity,padding] duration-[250ms] ease-[ease] group-data-[open=true]/item:pt-1 group-data-[open=true]/item:pb-6 group-data-[open=true]/item:opacity-100 md:px-5 md:group-data-[open=true]/item:pt-2 md:group-data-[open=true]/item:pb-7 motion-reduce:transition-none">
-                    <div className="relative aspect-[1224/300] w-full overflow-hidden rounded-card">
+                    <div className={`relative aspect-[1224/300] w-full overflow-hidden rounded-card ${styles.imageReveal}`}>
                       <Image
                         alt={service.imageAlt}
                         className="h-full w-full object-cover object-center"
                         height={300}
+                        loading={index === 0 ? "eager" : "lazy"}
                         sizes="(max-width: 1023px) 100vw, 1224px"
                         src={service.image}
                         width={1224}
@@ -202,7 +224,7 @@ export function Services() {
           <div
             aria-label="Service categories"
             aria-orientation="vertical"
-            className="flex h-full flex-col border-r border-divider/45"
+            className={`flex h-full flex-col ${styles.serviceNav}`}
             role="tablist"
           >
             {services.map((service, index) => {
@@ -275,16 +297,17 @@ export function Services() {
 
           <div
             aria-labelledby={`${baseId}-tab-${activeService.id}`}
-            className="flex h-full min-w-0 flex-col"
+            className={`flex h-full min-w-0 flex-col ${styles.servicePanel}`}
             id={panelId}
             role="tabpanel"
           >
-            <div className="relative h-[300px] w-[1225px] overflow-hidden rounded-t-card">
+            <div className={`relative h-[300px] w-[1225px] overflow-hidden rounded-t-card ${styles.imageReveal}`}>
               <Image
                 alt={activeService.imageAlt}
                 className="h-[300px] w-[1225px] max-w-none object-cover object-center"
                 height={300}
                 key={activeService.id}
+                loading="eager"
                 sizes="1225px"
                 src={activeService.image}
                 width={1225}
@@ -292,7 +315,7 @@ export function Services() {
             </div>
 
             <div
-              className="grid min-h-[380px] flex-auto grid-cols-[439px_1fr] gap-12 pt-9 pr-12 pb-8 pl-10"
+              className={`grid min-h-[380px] flex-auto grid-cols-[439px_1fr] gap-12 pt-9 pr-12 pb-8 pl-10 ${styles.serviceDetails}`}
               style={
                 {
                   "--ty": direction === "down" ? "16px" : "-16px",

@@ -4,7 +4,7 @@
 
 @media (min-width: 1024px) and (max-width: 1535px) {
   .section {
-    height: 36.4583333vw;
+    height: 47.9166667vw;
   }
 
   .canvas {
@@ -16,7 +16,7 @@
 
 @media (min-width: 1536px) {
   .section {
-    height: 560px;
+    height: 736px;
   }
 
   .canvas {

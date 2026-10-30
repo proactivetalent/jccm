@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { ReadyToBuild } from "@/components/sections/home/ReadyToBuild";
+
 import {
   companyLinks,
   footerContact,
@@ -113,52 +115,55 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer
-      aria-label="Site footer"
-      className="relative overflow-hidden bg-[linear-gradient(90deg,var(--jccm-color-brand-deep)_0%,var(--jccm-color-brand)_100%)]"
-    >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute top-1/2 -left-[120px] hidden h-[420px] w-[420px] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgb(236_244_243_/_14%)_0%,transparent_68%)] lg:block"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute top-1/2 -right-[140px] hidden h-[460px] w-[460px] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgb(236_244_243_/_12%)_0%,transparent_70%)] lg:block"
-      />
+    <>
+      <ReadyToBuild />
+      <footer
+        aria-label="Site footer"
+        className="relative overflow-hidden bg-[linear-gradient(90deg,var(--jccm-color-brand-deep)_0%,var(--jccm-color-brand)_100%)]"
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/2 -left-[120px] hidden h-[420px] w-[420px] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgb(236_244_243_/_14%)_0%,transparent_68%)] lg:block"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-1/2 -right-[140px] hidden h-[460px] w-[460px] -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgb(236_244_243_/_12%)_0%,transparent_70%)] lg:block"
+        />
 
-      <FooterRails />
+        <FooterRails />
 
-      <div className="relative z-[1] mx-auto flex w-full max-w-[1920px] flex-col px-5 pt-16 md:px-6 md:pt-20 lg:px-12 lg:pt-32">
-        <div className="relative">
-          <div className="grid gap-10 md:grid-cols-2 md:gap-x-8 md:gap-y-11 lg:grid-cols-4 lg:items-start lg:gap-0">
-            <div className="flex items-start justify-center md:col-span-2 lg:col-span-1 lg:justify-center lg:px-10">
-              <Link
-                aria-label="JCCM home"
-                className="inline-flex shrink-0 items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-white"
-                href="/"
-              >
-                <Image
-                  alt="JC Construction Management"
-                  className="h-auto w-full max-w-[200px] object-contain sm:max-w-[240px] lg:h-[251px] lg:w-[268px] lg:max-w-none"
-                  height={FOOTER_LOGO_HEIGHT}
-                  priority={false}
-                  src={FOOTER_LOGO}
-                  unoptimized
-                  width={FOOTER_LOGO_WIDTH}
-                />
-              </Link>
+        <div className="relative z-[1] mx-auto flex w-full max-w-[1920px] flex-col px-5 pt-16 md:px-6 md:pt-20 lg:px-12 lg:pt-32">
+          <div className="relative">
+            <div className="grid gap-10 md:grid-cols-2 md:gap-x-8 md:gap-y-11 lg:grid-cols-4 lg:items-start lg:gap-0">
+              <div className="flex items-start justify-center md:col-span-2 lg:col-span-1 lg:justify-center lg:px-10">
+                <Link
+                  aria-label="JCCM home"
+                  className="inline-flex shrink-0 items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-white"
+                  href="/"
+                >
+                  <Image
+                    alt="JC Construction Management"
+                    className="h-auto w-full max-w-[200px] object-contain sm:max-w-[240px] lg:h-[251px] lg:w-[268px] lg:max-w-none"
+                    height={FOOTER_LOGO_HEIGHT}
+                    priority={false}
+                    src={FOOTER_LOGO}
+                    unoptimized
+                    width={FOOTER_LOGO_WIDTH}
+                  />
+                </Link>
+              </div>
+
+              <FooterNavColumn heading="Company" links={companyLinks} />
+              <FooterNavColumn heading="Legal" links={legalLinks} />
+              <CommunicationColumn />
             </div>
-
-            <FooterNavColumn heading="Company" links={companyLinks} />
-            <FooterNavColumn heading="Legal" links={legalLinks} />
-            <CommunicationColumn />
           </div>
-        </div>
 
-        <p className="m-0 mt-14 pb-6 text-center font-body text-[14px] font-light leading-none text-white/88 lg:mt-32 lg:pb-8">
-          © {currentYear} JCCM - All Rights Reserved
-        </p>
-      </div>
-    </footer>
+          <p className="m-0 mt-14 pb-6 text-center font-body text-[14px] font-light leading-none text-white/88 lg:mt-32 lg:pb-8">
+            © {currentYear} JCCM - All Rights Reserved
+          </p>
+        </div>
+      </footer>
+    </>
   );
 }

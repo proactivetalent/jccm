@@ -674,8 +674,9 @@ export function Header() {
           </nav>
 
           <div className={styles.headerActions}>
-            <Link className={`${styles.projectCta} ${focusRingClass}`} href={navigationRoutes.contact}>
-              Start a Project <span aria-hidden="true">↗</span>
+            <Link className={`${styles.projectCta} group ${focusRingClass}`} href={navigationRoutes.contact}>
+              <span aria-hidden="true" className={styles.projectCtaArrow} />
+              <span className={styles.projectCtaLabel}>Start a Project</span>
             </Link>
             <button
               aria-label="Open navigation menu"

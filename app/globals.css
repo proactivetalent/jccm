@@ -12,8 +12,8 @@
   --jccm-color-footer-accent: #79ebdb;
   --jccm-color-white: #ffffff;
   --jccm-radius-card: 10px;
-  --font-jccm-headline: "Stack Sans Headline", ui-sans-serif, system-ui, sans-serif;
-  --font-jccm-body: "Stack Sans Text", ui-sans-serif, system-ui, sans-serif;
+  --font-jccm-headline: var(--font-stack-headline), ui-sans-serif, system-ui, sans-serif;
+  --font-jccm-body: var(--font-stack-text), ui-sans-serif, system-ui, sans-serif;
 }
 
 @theme inline {

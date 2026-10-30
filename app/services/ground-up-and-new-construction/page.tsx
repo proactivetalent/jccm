@@ -6,7 +6,6 @@ import { GroundUpStrategy } from "@/components/sections/services/GroundUpStrateg
 import { GroundUpAdvantage } from "@/components/sections/services/GroundUpAdvantage";
 import { GroundUpFaq } from "@/components/sections/services/GroundUpFaq";
 import { Portfolio } from "@/components/sections/home/Portfolio";
-import { ReadyToBuild } from "@/components/sections/home/ReadyToBuild";
 import { ServiceHero } from "@/components/sections/services/ServicesHero";
 import { ServicesStandard, type StandardItem } from "@/components/sections/services/ServicesStandard";
 
@@ -110,7 +109,6 @@ export default async function GroundUpNewConstructionPage() {
         <GroundUpAdvantage />
         <Portfolio />
         <GroundUpFaq />
-        <ReadyToBuild />
       </main>
       <Footer />
     </>

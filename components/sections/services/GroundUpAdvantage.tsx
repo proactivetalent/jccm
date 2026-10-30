@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import styles from "./GroundUpAdvantage.module.css";
-
 const advantages = [
   {
     icon: "/icons/services/advantage/capabilities.svg",
@@ -25,7 +23,7 @@ const advantages = [
 
 export function GroundUpAdvantage() {
   return (
-    <section aria-labelledby="ground-up-advantage-title" className={`relative overflow-hidden bg-surface ${styles.section}`}>
+    <section aria-labelledby="ground-up-advantage-title" className="relative overflow-hidden bg-surface min-[1024px]:max-[1535px]:h-[41.6666667vw] min-[1536px]:h-[640px]">
       <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-7 z-[1] hidden w-px bg-divider/70 lg:block" />
       <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-7 z-[1] hidden w-px bg-divider/70 lg:block" />
       <span aria-hidden="true" className="pointer-events-none absolute right-0 bottom-0 left-0 z-[1] h-px bg-divider" />
@@ -45,7 +43,7 @@ export function GroundUpAdvantage() {
         </div>
       </div>
 
-      <div className={`absolute top-0 hidden h-[800px] w-[1920px] lg:block ${styles.canvas}`}>
+      <div className="absolute top-0 hidden h-[800px] w-[1920px] origin-top-left min-[1024px]:block min-[1024px]:max-[1535px]:left-0 min-[1024px]:max-[1535px]:[scale:calc(100vw_/_1920px)] min-[1024px]:max-[1535px]:[translate:none] min-[1536px]:left-[calc(50%_-_768px)] min-[1536px]:[scale:0.8] min-[1536px]:[translate:none]">
         <h2 id="ground-up-advantage-title-desktop" className="absolute top-[138px] left-[477px] m-0 w-[966px] text-center font-headline text-[72px] leading-[72px] font-normal tracking-[-0.03em] text-ink">
           The JCCM Advantage in<br />Ground-Up Construction
         </h2>

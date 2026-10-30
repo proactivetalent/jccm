@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import styles from "./ResidentialDifference.module.css";
-
 const differences = [
   {
     icon: "/icons/services/difference/building-exp.svg",
@@ -31,7 +29,7 @@ const differences = [
 
 export function ResidentialDifference() {
   return (
-    <section aria-labelledby="residential-difference-title" className={`relative overflow-hidden bg-surface ${styles.section}`}>
+    <section aria-labelledby="residential-difference-title" className="relative overflow-hidden bg-surface min-[1024px]:max-[1535px]:h-[36.4583333vw] min-[1536px]:h-[560px]">
       <span aria-hidden="true" className="pointer-events-none absolute right-0 bottom-0 left-0 z-[1] h-px bg-divider" />
 
       <div className="mx-auto max-w-6xl px-6 py-16 md:px-10 md:py-20 lg:hidden">
@@ -49,7 +47,7 @@ export function ResidentialDifference() {
         </div>
       </div>
 
-      <div className={`absolute top-0 hidden h-[700px] w-[1920px] lg:block ${styles.canvas}`}>
+      <div className="absolute top-0 hidden h-[700px] w-[1920px] origin-top-left min-[1024px]:block min-[1024px]:max-[1535px]:left-0 min-[1024px]:max-[1535px]:[scale:calc(100vw_/_1920px)] min-[1024px]:max-[1535px]:[translate:none] min-[1536px]:left-[calc(50%_-_768px)] min-[1536px]:[scale:0.8] min-[1536px]:[translate:none]">
         <h2 id="residential-difference-title-desktop" className="absolute top-[70px] left-[520px] m-0 w-[880px] text-center font-headline text-[72px] leading-[72px] font-normal tracking-[-0.03em] text-ink">
           The JCCM Difference in<br />Residential Renovation
         </h2>

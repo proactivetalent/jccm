@@ -49,3 +49,12 @@
     scale: min(1, 100vw / 1920px);
   }
 }
+
+/* Laptop and 2K desktop viewports get a full-height hero so the metrics stay
+   inside the first screen instead of being clipped by the fixed canvas height. */
+@media (min-width: 1024px) and (max-width: 2000px) {
+  .sectionScale {
+    height: 100vh;
+    min-height: 100vh;
+  }
+}

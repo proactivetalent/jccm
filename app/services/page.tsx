@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Footer } from "@/components/layout/Footer/Footer";
 import { Header } from "@/components/layout/Header/Header";
 import { Portfolio } from "@/components/sections/home/Portfolio";
-import { ReadyToBuild } from "@/components/sections/home/ReadyToBuild";
 import { ClientCentricPhilosophy } from "@/components/sections/services/ClientCentricPhilosophy";
 import { IndustrySpecialization } from "@/components/sections/services/IndustrySpecialization";
 import { IntegratedApproach } from "@/components/sections/services/IntegratedApproach";
@@ -29,7 +28,6 @@ export default function ServicesPage() {
         <IndustrySpecialization />
         <ClientCentricPhilosophy />
         <Portfolio />
-        <ReadyToBuild />
       </main>
       <Footer />
     </>

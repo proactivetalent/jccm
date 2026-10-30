@@ -1,9 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
-import styles from "./ResidentialRenovationServices.module.css";
+export type ServiceRowItem = Readonly<{
+  title: string;
+  description: string;
+  image: string;
+}>;
 
-const services = [
+const renovationServices: readonly ServiceRowItem[] = [
   {
     title: "Residential Renovations",
     description: "Transform apartments, condos, townhouses, and brownstones with thoughtful planning, quality craftsmanship, and careful management of your home and building requirements.",
@@ -36,7 +41,7 @@ const services = [
   },
 ] as const;
 
-function ServiceRow({ service }: { service: (typeof services)[number] }) {
+function ServiceRow({ service }: { service: ServiceRowItem }) {
   return (
     <Link className="group relative block overflow-hidden rounded-card bg-divider/20 text-ink no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand" href="/contact">
       <Image alt="" className="absolute inset-0 object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03] group-focus-visible:scale-[1.03] motion-reduce:transition-none" fill sizes="(max-width: 1023px) 100vw, 1640px" src={service.image} unoptimized />
@@ -54,23 +59,37 @@ function ServiceRow({ service }: { service: (typeof services)[number] }) {
   );
 }
 
-export function ResidentialRenovationServices() {
+export type ServiceRowsSectionProps = Readonly<{
+  title?: ReactNode;
+  description?: string;
+  desktopDescription?: string;
+  items?: readonly ServiceRowItem[];
+  sectionId?: string;
+}>;
+
+export function ResidentialRenovationServices({
+  title = "Our Renovation Services",
+  description = "We specialize in managing projects that transform existing spaces into functional, finished environments.",
+  desktopDescription = "We specialize in bringing clarity and quality to a wide range of residential projects.",
+  items = renovationServices,
+  sectionId = "renovation-services-title",
+}: ServiceRowsSectionProps = {}) {
   return (
-    <section aria-labelledby="renovation-services-title" className={`relative overflow-hidden bg-surface ${styles.section}`}>
+    <section aria-labelledby={sectionId} className="relative overflow-hidden bg-surface min-[1024px]:max-[1535px]:h-[78.125vw] min-[1536px]:h-[1200px]">
       <span aria-hidden="true" className="pointer-events-none absolute right-0 bottom-0 left-0 z-[1] h-px bg-divider" />
 
       <div className="mx-auto max-w-3xl px-6 py-16 md:px-10 md:py-20 lg:hidden">
         <div className="flex flex-col gap-5">
-          <h2 id="renovation-services-title" className="m-0 font-headline text-[clamp(48px,10vw,72px)] leading-none font-normal tracking-[-0.03em] text-ink">Our Renovation Services</h2>
-          <p className="m-0 max-w-md font-body text-base leading-[1.23] font-medium text-ink">We specialize in managing projects that transform existing spaces into functional, finished environments. </p>
+          <h2 id={sectionId} className="m-0 font-headline text-[clamp(48px,10vw,72px)] leading-none font-normal tracking-[-0.03em] text-ink">{title}</h2>
+          <p className="m-0 max-w-md font-body text-base leading-[1.23] font-medium text-ink">{description}</p>
         </div>
-        <div className="mt-10 flex flex-col gap-4">{services.map((service) => <ServiceRow key={service.title} service={service} />)}</div>
+        <div className="mt-10 flex flex-col gap-4">{items.map((service) => <ServiceRow key={service.title} service={service} />)}</div>
       </div>
 
-      <div className={`absolute top-0 hidden h-[1500px] w-[1920px] lg:block ${styles.canvas}`}>
-        <h2 id="renovation-services-title-desktop" className="absolute top-[94px] left-[190px] m-0 font-headline text-[72px] leading-[1.1] font-normal tracking-[-0.03em] text-ink">Our Renovation Services</h2>
-        <p className="absolute top-[118px] left-[1240px] m-0 w-[430px] font-body text-[16px] leading-[1.23] font-medium text-ink">We specialize in bringing clarity and quality to a wide range of residential projects.</p>
-        <div className="absolute top-[270px] left-[140px] flex w-[1640px] flex-col gap-4">{services.map((service) => <ServiceRow key={service.title} service={service} />)}</div>
+      <div className="absolute top-0 hidden h-[1500px] w-[1920px] origin-top-left min-[1024px]:block min-[1024px]:max-[1535px]:left-0 min-[1024px]:max-[1535px]:[scale:calc(100vw_/_1920px)] min-[1024px]:max-[1535px]:[translate:none] min-[1536px]:left-[calc(50%_-_768px)] min-[1536px]:[scale:0.8] min-[1536px]:[translate:none]">
+        <h2 id={`${sectionId}-desktop`} className="absolute top-[94px] left-[190px] m-0 font-headline text-[72px] leading-[1.1] font-normal tracking-[-0.03em] text-ink">{title}</h2>
+        <p className="absolute top-[118px] left-[1240px] m-0 w-[430px] font-body text-[16px] leading-[1.23] font-medium text-ink">{desktopDescription}</p>
+        <div className="absolute top-[270px] left-[140px] flex w-[1640px] flex-col gap-4">{items.map((service) => <ServiceRow key={service.title} service={service} />)}</div>
       </div>
     </section>
   );
