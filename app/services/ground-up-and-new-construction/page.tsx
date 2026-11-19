@@ -93,6 +93,7 @@ export default async function GroundUpNewConstructionPage() {
             taglineDesktopTop: "top-[352px]",
             ctasDesktopTop: "top-[435px]",
             descriptionDesktopTop: "top-[201px]",
+            mobileBottomPaddingClassName: "pb-8 md:pb-14",
             headingId: "ground-up-hero-title",
           }}
         />

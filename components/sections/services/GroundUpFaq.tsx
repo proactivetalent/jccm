@@ -40,12 +40,14 @@ function ExpandIcon({ open }: Readonly<{ open: boolean }>) {
 export type GroundUpFaqProps = Readonly<{
   faqs?: readonly FaqItem[];
   title?: string;
+  description?: string;
   idPrefix?: string;
 }>;
 
 export function GroundUpFaq({
   faqs = defaultFaqs,
   title = "Frequently Asked Questions",
+  description = "Clear answers about how we coordinate the people, decisions, and details behind a successful project.",
   idPrefix = "ground-up-faq",
 }: GroundUpFaqProps = {}) {
   const [openIndex, setOpenIndex] = useState(0);
@@ -63,7 +65,7 @@ export function GroundUpFaq({
           {title}
         </h2>
         <p className="mt-6 mb-0 max-w-xl font-body text-base leading-[1.45] text-ink-strong">
-          Clear answers about how we coordinate the people, decisions, and details behind a successful project.
+          {description}
         </p>
         <div className="mt-10 border-t border-brand/20">
           {faqs.map((faq, index) => {
@@ -95,7 +97,7 @@ export function GroundUpFaq({
           </h2>
           <span aria-hidden="true" className="mt-[30px] block h-1 w-[114px] bg-brand" />
           <p className="mt-[24px] mb-0 w-[440px] font-body text-[20px] leading-[1.35] text-ink-strong">
-            Clear answers about how we coordinate the people, decisions, and details behind a successful project.
+            {description}
           </p>
         </div>
 
