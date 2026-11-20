@@ -52,17 +52,21 @@ function ApproachCards({ desktop = false }: Readonly<{ desktop?: boolean }>) {
         <article
           className={
             desktop
-              ? "relative h-[493px] w-[412px] rounded-card bg-white transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[0_16px_40px_rgb(32_83_81_/_9%)] motion-reduce:transition-none"
-              : "flex min-h-[430px] flex-col items-center rounded-card bg-white px-[26px] pt-[30px] pb-[34px] transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 hover:shadow-[0_16px_40px_rgb(32_83_81_/_9%)] motion-reduce:transition-none"
+              ? "group relative h-[493px] w-[412px] overflow-hidden rounded-card border border-transparent bg-white transition-[background-color,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-brand/20 hover:bg-[#f8fbfa] motion-reduce:transition-none"
+              : "group relative flex min-h-[430px] flex-col items-center overflow-hidden rounded-card border border-transparent bg-white px-[26px] pt-[30px] pb-[34px] transition-[background-color,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-brand/20 hover:bg-[#f8fbfa] motion-reduce:transition-none"
           }
           key={service.title}
         >
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-brand transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100 motion-reduce:transition-none"
+          />
           <Image
             alt={service.iconAlt}
             className={
               desktop
-                ? "absolute top-8 left-[141px] h-[107px] w-[106px] max-w-none"
-                : "block h-[107px] w-[106px] max-w-none"
+                ? "absolute top-8 left-[141px] h-[107px] w-[106px] max-w-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.045] motion-reduce:transition-none"
+                : "block h-[107px] w-[106px] max-w-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.045] motion-reduce:transition-none"
             }
             height={107}
             src={service.icon}
@@ -72,8 +76,8 @@ function ApproachCards({ desktop = false }: Readonly<{ desktop?: boolean }>) {
           <h3
             className={
               desktop
-                ? `absolute ${index === 2 ? "top-[170px]" : "top-[164px]"} left-[15px] m-0 h-[70px] w-[362px] font-headline text-[32px] leading-[1.109] font-medium text-center text-brand`
-                : "mt-6 mb-0 font-headline text-[28px] leading-[1.109] font-medium text-center text-brand"
+                ? `absolute ${index === 2 ? "top-[170px]" : "top-[164px]"} left-[15px] m-0 h-[70px] w-[362px] font-headline text-[32px] leading-[1.109] font-medium text-center text-brand transition-colors duration-500 group-hover:text-[#205351] motion-reduce:transition-none`
+                : "mt-6 mb-0 font-headline text-[28px] leading-[1.109] font-medium text-center text-brand transition-colors duration-500 group-hover:text-[#205351] motion-reduce:transition-none"
             }
           >
             {service.title}

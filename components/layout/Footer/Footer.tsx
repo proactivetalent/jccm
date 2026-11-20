@@ -111,12 +111,14 @@ function CommunicationColumn() {
   );
 }
 
-export function Footer() {
+export function Footer({
+  hideReadyToBuild = false,
+}: Readonly<{ hideReadyToBuild?: boolean }>) {
   const currentYear = new Date().getFullYear();
 
   return (
     <>
-      <ReadyToBuild />
+      {hideReadyToBuild ? null : <ReadyToBuild />}
       <footer
         aria-label="Site footer"
         className="relative overflow-hidden bg-[linear-gradient(90deg,var(--jccm-color-brand-deep)_0%,var(--jccm-color-brand)_100%)]"

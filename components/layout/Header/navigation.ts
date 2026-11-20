@@ -94,8 +94,8 @@ export const servicesDropdownItems: readonly DropdownNavigationItem[] = [
 
 export const portfolioDropdownItems: readonly DropdownNavigationItem[] = [
   {
-    label: "Mixed Used",
-    href: "/portfolio/mixed-use",
+    label: "Mixed Use",
+    href: "/portfolio?category=mixed-use",
     icon: "/icons/header/portfolio-mixed-use.png",
     iconWidth: 43,
     iconHeight: 43,
@@ -106,7 +106,7 @@ export const portfolioDropdownItems: readonly DropdownNavigationItem[] = [
   },
   {
     label: "Retail Stores",
-    href: "/portfolio/retail-stores",
+    href: "/portfolio?category=retail",
     icon: "/icons/header/portfolio-retail.png",
     iconWidth: 43,
     iconHeight: 43,
@@ -117,7 +117,7 @@ export const portfolioDropdownItems: readonly DropdownNavigationItem[] = [
   },
   {
     label: "Ground-Up Portfolio",
-    href: "/portfolio/ground-up",
+    href: "/portfolio?category=ground-up",
     icon: "/icons/header/portfolio-ground-up.png",
     iconWidth: 43,
     iconHeight: 43,
@@ -130,7 +130,7 @@ export const portfolioDropdownItems: readonly DropdownNavigationItem[] = [
   },
   {
     label: "Residential Portfolio",
-    href: "/portfolio/residential",
+    href: "/portfolio?category=residential",
     icon: "/icons/header/portfolio-residential.png",
     iconWidth: 43,
     iconHeight: 43,
@@ -141,7 +141,7 @@ export const portfolioDropdownItems: readonly DropdownNavigationItem[] = [
   },
   {
     label: "Commercial Portfolio",
-    href: "/portfolio/commercial",
+    href: "/portfolio?category=commercial",
     icon: "/icons/header/portfolio-commercial.png",
     iconWidth: 43,
     iconHeight: 43,
@@ -179,9 +179,9 @@ export const servicesFullMenuItems: readonly FullMenuNavigationItem[] = [
 ] as const;
 
 export const portfolioFullMenuItems: readonly FullMenuNavigationItem[] = [
-  { label: "Mixed Use", href: "/portfolio/mixed-use" },
-  { label: "Retail Stores", href: "/portfolio/retail-stores" },
-  { label: "Residential Portfolio", href: "/portfolio/residential" },
-  { label: "Commercial Portfolio", href: "/portfolio/commercial" },
-  { label: "Ground-Up Portfolio", href: "/portfolio/ground-up" },
+  { label: "Mixed Use", href: "/portfolio?category=mixed-use" },
+  { label: "Retail Stores", href: "/portfolio?category=retail" },
+  { label: "Residential Portfolio", href: "/portfolio?category=residential" },
+  { label: "Commercial Portfolio", href: "/portfolio?category=commercial" },
+  { label: "Ground-Up Portfolio", href: "/portfolio?category=ground-up" },
 ] as const;

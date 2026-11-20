@@ -21,7 +21,7 @@ export default function ContactPage() {
         <ContactForm />
         <ContactInfo />
       </main>
-      <Footer />
+      <Footer hideReadyToBuild />
     </>
   );
 }

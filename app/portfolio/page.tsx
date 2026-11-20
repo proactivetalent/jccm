@@ -14,11 +14,18 @@ export const metadata: Metadata = {
     "Explore JC Construction Management projects across New York, from residential construction to commercial renovations and build-outs.",
 };
 
-export default async function PortfolioPage() {
-  const [projects, settings] = await Promise.all([
-    getPortfolioProjects(),
-    getPortfolioSettings(),
+export default async function PortfolioPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string | string[] }>;
+}) {
+  const [[projects, settings], query] = await Promise.all([
+    Promise.all([getPortfolioProjects(), getPortfolioSettings()]),
+    searchParams,
   ]);
+  const categoryParam = Array.isArray(query.category)
+    ? query.category[0]
+    : query.category;
 
   const listingProjects = projects.map((project) => {
     const imageMetadata = getImageMetadata(project.cardImage.image);
@@ -82,6 +89,8 @@ export default async function PortfolioPage() {
         </section>
 
         <PortfolioListing
+          key={categoryParam ?? "all-categories"}
+          initialCategory={categoryParam}
           pageSize={settings?.projectsPerPage || 12}
           projects={listingProjects}
         />

@@ -50,7 +50,7 @@ function IndustryExploreLink({
 }: Readonly<{ href: string; desktopPosition?: string }>) {
   return (
     <Link
-      className={`group relative box-border block h-9 w-[131px] overflow-hidden border-[3px] border-white text-white no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white ${
+      className={`group relative z-[1] box-border block h-9 w-[131px] overflow-hidden border-[3px] border-white text-white no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white ${
         desktopPosition
           ? `absolute top-[427px] ${desktopPosition}`
           : "mt-auto"
@@ -90,15 +90,19 @@ function IndustryCard({
     <article
       className={
         desktop
-          ? "relative h-[518px] w-[537px] rounded-card bg-brand text-white"
-          : "flex min-h-[430px] flex-col rounded-card bg-brand px-7 pt-9 pb-8 text-white sm:px-9"
+          ? "group/industry relative h-[518px] w-[537px] overflow-hidden rounded-card bg-brand text-white"
+          : "group/industry relative flex min-h-[430px] flex-col overflow-hidden rounded-card bg-brand px-7 pt-9 pb-8 text-white sm:px-9"
       }
     >
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 rounded-card bg-[radial-gradient(ellipse_at_bottom_left,rgba(170,224,213,0.2),transparent_66%),linear-gradient(135deg,rgba(255,255,255,0.07),transparent_52%)] opacity-0 transition-opacity duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-has-[a:hover]/industry:opacity-100 group-has-[a:focus-visible]/industry:opacity-100 motion-reduce:transition-none"
+      />
       <h3
         className={
           desktop
-            ? "absolute top-[57px] left-12 m-0 max-w-[430px] font-headline text-[32px] leading-[1.109] font-medium"
-            : "m-0 font-headline text-[clamp(27px,7vw,32px)] leading-[1.109] font-medium"
+            ? "absolute top-[57px] left-12 z-[1] m-0 max-w-[430px] font-headline text-[32px] leading-[1.109] font-medium"
+            : "relative z-[1] m-0 font-headline text-[clamp(27px,7vw,32px)] leading-[1.109] font-medium"
         }
       >
         {industry.title}
@@ -107,8 +111,8 @@ function IndustryCard({
       <ul
         className={
           desktop
-            ? "absolute top-[118px] left-10 m-0 w-[439px] list-disc pl-6 font-body text-base leading-[1.23] font-normal"
-            : "mt-7 mb-9 list-disc pl-5 font-body text-base leading-[1.3] font-normal"
+            ? "absolute top-[118px] left-10 z-[1] m-0 w-[439px] list-disc pl-6 font-body text-base leading-[1.23] font-normal"
+            : "relative z-[1] mt-7 mb-9 list-disc pl-5 font-body text-base leading-[1.3] font-normal"
         }
       >
         {industry.points.map((point) => (

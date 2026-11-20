@@ -35,6 +35,7 @@ export type ListingProject = Readonly<{
 type PortfolioListingProps = Readonly<{
   projects: ListingProject[];
   pageSize: number;
+  initialCategory?: string;
 }>;
 
 type FilterName = "location" | "projectType" | "category";
@@ -67,10 +68,44 @@ function toggleSelected(selected: string[], value: string) {
     : [...selected, value];
 }
 
-export function PortfolioListing({ projects, pageSize }: PortfolioListingProps) {
+const categoryShortcutTerms: Record<string, readonly string[]> = {
+  commercial: ["commercial"],
+  residential: ["residential"],
+  "mixed-use": ["mixeduse"],
+  retail: ["retail"],
+  "ground-up": ["groundup", "newconstruction"],
+};
+
+function normalizeCategory(value: string) {
+  return value.toLocaleLowerCase().replace(/[^a-z0-9]/g, "");
+}
+
+function selectedCategoryForShortcut(
+  projects: ListingProject[],
+  initialCategory?: string,
+) {
+  const terms = initialCategory ? categoryShortcutTerms[initialCategory] : undefined;
+  if (!terms) return [];
+
+  const matchingCategory = uniqueSorted(
+    projects.flatMap((project) => project.categories),
+  ).find((category) =>
+    terms.some((term) => normalizeCategory(category).includes(term)),
+  );
+
+  return matchingCategory ? [matchingCategory] : [];
+}
+
+export function PortfolioListing({
+  projects,
+  pageSize,
+  initialCategory,
+}: PortfolioListingProps) {
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [selectedProjectTypes, setSelectedProjectTypes] = useState<string[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(() =>
+    selectedCategoryForShortcut(projects, initialCategory),
+  );
   const [openFilter, setOpenFilter] = useState<FilterName | null>(null);
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState<SortOrder>("featured");
